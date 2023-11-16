@@ -5,7 +5,7 @@ import {
 	char,
 	many,
 	group,
-} from './lib.js';
+} from './index.js';
 
 // text element
 assert.strictEqual(regtree(text('abc')).source, 'abc');

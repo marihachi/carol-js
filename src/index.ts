@@ -1,29 +1,35 @@
-import {
-	regtree,
+import type {
 	Source,
 	Flag,
 	Elem,
 	TextElem,
-	text,
 	CharElem,
-	char,
 	ManyElem,
-	many,
 	GroupElem,
+} from './lib.js';
+
+export type {
+	Source,
+	Flag,
+	Elem,
+	TextElem,
+	CharElem,
+	ManyElem,
+	GroupElem,
+};
+
+import {
+	regtree,
+	text,
+	char,
+	many,
 	group,
 } from './lib.js';
 
 export {
 	regtree,
-	Source,
-	Flag,
-	Elem,
-	TextElem,
 	text,
-	CharElem,
 	char,
-	ManyElem,
 	many,
-	GroupElem,
 	group,
 };
