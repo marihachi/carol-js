@@ -1,0 +1,19 @@
+{
+  "name": "regtree",
+  "version": "1.0.0",
+  "description": "A regular expression builder for JavaScript.",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node .",
+    "test": "node ./dist/test.js"
+  },
+  "author": "marihachi",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.8"
+  }
+}
