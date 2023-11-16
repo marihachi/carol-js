@@ -24,4 +24,16 @@ assert.strictEqual(regtree(many(text('a'), 1)).source, 'a+');
 assert.strictEqual(regtree(group(text('ab'))).source, '(ab)');
 assert.strictEqual(regtree(group([text('a'), text('b')])).source, '(ab)');
 
+// example
+const regex = regtree([
+	text('hell'),
+	many(char('o'), 1),
+	text(' wo'),
+	many(char('r'), 1),
+	text('ld'),
+	many(char('!'), 0),
+]);
+assert.strictEqual(regex.source, /hell[o]+ wo[r]+ld[!]*/.source);
+assert.strictEqual(regex.test('helloo worrrrrld!!!'), true);
+
 console.log('Done');
