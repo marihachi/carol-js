@@ -1,6 +1,8 @@
 # regtree
-A regular expression builder for JavaScript.
-We build a RegExp object by combining functions.
+A regular expression builder for JavaScript.  
+We build a RegExp object by combining functions.  
+  
+work in progress.
 
 ## Function list
 - text
