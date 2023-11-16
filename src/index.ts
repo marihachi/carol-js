@@ -1,21 +1,21 @@
 import type {
 	Source,
 	Flag,
-	Elem,
-	TextElem,
-	CharElem,
-	ManyElem,
-	GroupElem,
+	Element,
+	TextElement,
+	CharElement,
+	ManyElement,
+	GroupElement,
 } from './lib.js';
 
 export type {
 	Source,
 	Flag,
-	Elem,
-	TextElem,
-	CharElem,
-	ManyElem,
-	GroupElem,
+	Element as Elem,
+	TextElement as TextElem,
+	CharElement as CharElem,
+	ManyElement as ManyElem,
+	GroupElement as GroupElem,
 };
 
 import {

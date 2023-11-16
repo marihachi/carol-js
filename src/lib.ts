@@ -1,19 +1,15 @@
 export function regtree(source: Source, flags?: Flag | Flag[]): RegExp {
 	let pattern: string;
-	if (Array.isArray(source)) {
-		pattern = source.map(x => emit(x)).join('');
-	} else {
-		pattern = emit(source);
-	}
+	pattern = emit(source);
 	return new RegExp(pattern);
 }
 
-export type Source = Elem | Elem[];
+export type Source = Element | Element[];
 export type Flag = 'i' | 'g';
-export type Elem = TextElem | CharElem | ManyElem | GroupElem;
+export type Element = TextElement | CharElement | ManyElement | GroupElement;
 
 /** abc */
-export class TextElem {
+export class TextElement {
 	public body: string;
 	constructor(
 		body: string | string[],
@@ -21,78 +17,76 @@ export class TextElem {
 		this.body = Array.isArray(body) ? body.join('') : body;
 	}
 }
-export function text(body: string | string[]): TextElem {
-	return new TextElem(body);
+export function text(body: string | string[]): TextElement {
+	return new TextElement(body);
 }
 
 /** [abc] or [a-z] */
-export class CharElem {
+export class CharElement {
 	constructor(
 		public body: (string | { begin: string, end: string }) | (string | { begin: string, end: string })[],
 	) { }
 }
-export function char(body: (string | { begin: string, end: string }) | (string | { begin: string, end: string })[]): CharElem {
-	return new CharElem(body);
+export function char(body: (string | { begin: string, end: string }) | (string | { begin: string, end: string })[]): CharElement {
+	return new CharElement(body);
 }
 
 /** a+ */
-export class ManyElem {
+export class ManyElement {
 	constructor(
-		public body: Elem,
+		public body: Element,
 		public min: 0 | 1,
 	) { }
 }
-export function many(body: Elem, min: 0 | 1): ManyElem {
-	return new ManyElem(body, min);
+export function many(body: Element, min: 0 | 1): ManyElement {
+	return new ManyElement(body, min);
 }
 
 /** (abc) */
-export class GroupElem {
+export class GroupElement {
 	constructor(
-		public body: Elem | Elem[],
+		public body: Element | Element[],
 	) { }
 }
-export function group(body: Elem | Elem[]): GroupElem {
-	return new GroupElem(body);
+export function group(body: Element | Element[]): GroupElement {
+	return new GroupElement(body);
 }
 
-function emit(e: Elem) {
-	if (e instanceof TextElem) {
-		return emitTextElement(e);
-	} else if (e instanceof CharElem) {
+//#region emit
+
+function emit(e: Element | Element[]): string {
+	if (Array.isArray(e)) {
+		return e.map(x => emit(x)).join('');
+	} else if (e instanceof TextElement) {
+		return e.body;
+	} else if (e instanceof CharElement) {
 		return emitCharElement(e);
-	} else if (e instanceof ManyElem) {
+	} else if (e instanceof ManyElement) {
 		return emitManyElement(e);
-	} else if (e instanceof GroupElem) {
+	} else if (e instanceof GroupElement) {
 		return emitGroupElement(e);
 	} else {
 		throw new Error('unknown element');
 	}
 }
 
-function emitTextElement(e: TextElem): string {
-	return e.body;
-}
-
-function emitCharElement(e: CharElem): string {
-	function emitSubElem(c: string | { begin: string, end: string }): string {
+function emitCharElement(e: CharElement): string {
+	function emitSub(c: string | { begin: string, end: string }): string {
 		return (typeof c === 'string') ? c : `${c.begin}-${c.end}`;
 	}
 	if (Array.isArray(e.body)) {
-		return '[' + e.body.map(x => emitSubElem(x)).join('') + ']';
+		return '[' + e.body.map(x => emitSub(x)).join('') + ']';
 	} else {
-		return '[' + emitSubElem(e.body) + ']';
+		return '[' + emitSub(e.body) + ']';
 	}
 }
 
-function emitManyElement(e: ManyElem): string {
+function emitManyElement(e: ManyElement): string {
 	return emit(e.body) + (e.min == 0 ? '*' : '+');
 }
 
-function emitGroupElement(e: GroupElem): string {
-	if (Array.isArray(e.body)) {
-		return '(' + e.body.map(x => emit(x)).join('') + ')';
-	} else {
-		return '(' + emit(e.body) + ')';
-	}
+function emitGroupElement(e: GroupElement): string {
+	return '(' + emit(e.body) + ')';
 }
+
+//#endregion emit
