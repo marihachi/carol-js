@@ -1,10 +1,10 @@
 import assert from 'assert';
 import {
-	regtree,
-	text,
-	char,
-	many,
-	group,
+  regtree,
+  text,
+  char,
+  many,
+  group,
 } from './index.js';
 
 // text element
@@ -26,12 +26,12 @@ assert.strictEqual(regtree(group([text('a'), text('b')])).source, '(ab)');
 
 // example
 const regex = regtree([
-	text('hell'),
-	many(char('o'), 1),
-	text(' wo'),
-	many(char('r'), 1),
-	text('ld'),
-	many(char('!'), 0),
+  text('hell'),
+  many(char('o'), 1),
+  text(' wo'),
+  many(char('r'), 1),
+  text('ld'),
+  many(char('!'), 0),
 ]);
 assert.strictEqual(regex.source, /hell[o]+ wo[r]+ld[!]*/.source);
 assert.strictEqual(regex.test('helloo worrrrrld!!!'), true);
