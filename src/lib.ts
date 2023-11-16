@@ -1,11 +1,11 @@
 export function regtree(source: Source, flags?: Flag | Flag[]): RegExp {
 	let pattern: string;
 	pattern = emit(source);
-	return new RegExp(pattern);
+	return new RegExp(pattern, (Array.isArray(flags) ? flags.join('') : flags));
 }
 
 export type Source = Element | Element[];
-export type Flag = 'i' | 'g';
+export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 export type Element = TextElement | CharElement | ManyElement | GroupElement;
 
 /** abc */
