@@ -11,11 +11,11 @@ import type {
 export type {
 	Source,
 	Flag,
-	Element as Elem,
-	TextElement as TextElem,
-	CharElement as CharElem,
-	ManyElement as ManyElem,
-	GroupElement as GroupElem,
+	Element,
+	TextElement,
+	CharElement,
+	ManyElement,
+	GroupElement,
 };
 
 import {
