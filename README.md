@@ -1,4 +1,4 @@
-# regtree
+# carol-js
 A small tool for building regular expressions in JavaScript.  
 We build a RegExp object by combining functions.  
 
