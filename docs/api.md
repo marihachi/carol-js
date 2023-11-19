@@ -1,11 +1,11 @@
-## API list
-- `regex(): Regtree` function
-- `seq(): Regtree` function
-- `Regtree` class
+# API
+- function: `regex(): Carol`
+- function: `seq(): Carol`
+- class: `Carol`
   - constructor
-  - `Regtree.build(): RegExp` method
-  - `Regtree.many0(): Regtree` method
-  - `Regtree.many1(): Regtree` method
-  - `Regtree.manyJust(): Regtree` method
-  - `Regtree.many(): Regtree` method
-  - `Regtree.capture(): Regtree` method
+  - method: `build(): RegExp`
+  - method: `many0(): Carol`
+  - method: `many1(): Carol`
+  - method: `manyJust(): Carol`
+  - method: `many(): Carol`
+  - method: `capture(): Carol`
