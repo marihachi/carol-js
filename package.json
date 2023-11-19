@@ -1,18 +1,14 @@
 {
-  "name": "regtree",
+  "name": "carol-js",
   "version": "1.0.0",
-  "description": "A regular expression builder for JavaScript.",
-  "main": "./dist/index.js",
+  "description": "A small tool for building regular expressions in JavaScript.",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
   "scripts": {
-    "build": "tsc",
-    "start": "node .",
-    "test": "node ./dist/test.js"
+    "test": "node ./test.mjs"
   },
   "author": "marihachi",
   "license": "MIT",
-  "dependencies": {
-    "typescript": "^5.2.2"
-  },
   "devDependencies": {
     "@types/node": "^20.8.8"
   }
