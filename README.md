@@ -15,5 +15,11 @@ assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
 assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 ```
 
+## Test
+```
+npm i
+npm run test
+```
+
 ## License
 MIT
