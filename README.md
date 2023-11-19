@@ -11,7 +11,9 @@ const r = seq([
   regex(/world/),
   regex(/!/).many0(),
 ]).many1().build();
+
 assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
+
 assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 ```
 
