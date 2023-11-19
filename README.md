@@ -5,24 +5,26 @@ We build a RegExp object by combining functions.
 work in progress.
 
 ```ts
-const regex = regtree([
-  text('hell'),
-  many(char('o'), 1),
-  text(' wo'),
-  many(char('r'), 1),
-  text('ld'),
-  many(char('!'), 0),
-]);
-assert.strictEqual(regex.source, /hell[o]+ wo[r]+ld[!]*/.source);
-assert.strictEqual(regex.test('helloo worrrrrld!!!'), true);
+const r = seq([
+  regex(/hello/),
+  regex(/ /),
+  regex(/world/),
+  regex(/!/).many0(),
+]).many1().build();
+assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
+assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 ```
 
-## Function list
-- regtree
-- text
-- char
-- many
-- group
+## API list
+- function `regex(): Regtree`
+- function `seq(): Regtree`
+- constructor `Regtree`
+- method `Regtree.build(): RegExp`
+- method `Regtree.many0(): Regtree`
+- method `Regtree.many1(): Regtree`
+- method `Regtree.manyJust(): Regtree`
+- method `Regtree.many(): Regtree`
+- method `Regtree.capture(): Regtree`
 
 ## License
 MIT

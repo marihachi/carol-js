@@ -1,7 +1,7 @@
 export class Regtree {
   pattern: string;
 
-  constructor(node: Regtree | Regtree[])
+  constructor(tree: Regtree | Regtree[])
   constructor(pattern: string)
   constructor(arg: string | Regtree | Regtree[]) {
     if (Array.isArray(arg)) {
@@ -15,7 +15,7 @@ export class Regtree {
     }
   }
 
-  many0(greedy?: boolean) {
+  many0(greedy?: boolean): Regtree {
     let quantifier = '*';
     if (greedy === false) {
       quantifier += '?';
@@ -23,7 +23,7 @@ export class Regtree {
     return new Regtree('(?:' + this.pattern + ')' + quantifier);
   }
 
-  many1(greedy?: boolean) {
+  many1(greedy?: boolean): Regtree {
     let quantifier = '+';
     if (greedy === false) {
       quantifier += '?';
@@ -55,7 +55,7 @@ export class Regtree {
     }
   }
 
-  capture() {
+  capture(): Regtree {
     return new Regtree('(' + this.pattern + ')');
   }
 
@@ -81,6 +81,6 @@ export function regex(pattern: RegExp | RegExp[]): Regtree {
   );
 }
 
-export function seq(node: Regtree | Regtree[]): Regtree {
-  return new Regtree(node);
+export function seq(tree: Regtree | Regtree[]): Regtree {
+  return new Regtree(tree);
 }

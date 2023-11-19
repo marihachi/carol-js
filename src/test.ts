@@ -64,3 +64,14 @@ test('seq()', () => {
   assert.strictEqual(seq([regex(/abc/), regex(/xyz/)]).build().source, 'abcxyz');
   assert.strictEqual(seq([regex(/abc/).many0(), regex(/xyz/)]).build().source, '(?:abc)*xyz');
 });
+
+test('hello world', () => {
+  const r = seq([
+    regex(/hello/),
+    regex(/ /),
+    regex(/world/),
+    regex(/!/).many0(),
+  ]).many1().build();
+  assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
+  assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
+});
