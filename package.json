@@ -1,6 +1,6 @@
 {
   "name": "carol-js",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A small tool for building regular expressions in JavaScript.",
   "type": "module",
   "module": "./carol.mjs",
