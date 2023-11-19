@@ -15,7 +15,12 @@ export class Carol {
   constructor(arg) {
     if (Array.isArray(arg)) {
       /** @type {string} */
-      this.pattern = arg.map(x => x.pattern).join('');
+      this.pattern = arg.map(x => {
+        if (!(x instanceof Carol)) {
+          throw new TypeError('invalid argument');
+        }
+        return x.pattern;
+      }).join('');
     } else if (arg instanceof Carol) {
       this.pattern = arg.pattern;
     } else if (typeof arg === 'string') {
@@ -30,6 +35,9 @@ export class Carol {
    * @returns { Carol } generated Carol instance
   */
   many0(greedy) {
+    if (greedy != null && typeof greedy !== 'boolean') {
+      throw new TypeError('invalid argument');
+    }
     let quantifier = '*';
     if (greedy === false) {
       quantifier += '?';
@@ -42,6 +50,9 @@ export class Carol {
    * @returns { Carol } generated Carol instance
   */
   many1(greedy) {
+    if (greedy != null && typeof greedy !== 'boolean') {
+      throw new TypeError('invalid argument');
+    }
     let quantifier = '+';
     if (greedy === false) {
       quantifier += '?';
@@ -54,6 +65,9 @@ export class Carol {
    * @returns { Carol } generated Carol instance
   */
   manyJust(count) {
+    if (typeof count !== 'number') {
+      throw new TypeError('invalid argument');
+    }
     return new Carol('(?:' + this.pattern + '){' + count + '}');
   }
 
@@ -106,13 +120,15 @@ export class Carol {
    * @returns { RegExp } RegExp object
   */
   build(flags) {
+    if (flags == null) {
+      flags = '';
+    }
+    if (!Array.isArray(flags) && typeof flags !== 'string') {
+      throw new TypeError('invalid argument');
+    }
     return new RegExp(
       this.pattern,
-      (
-        flags != null
-        ? (Array.isArray(flags) ? flags.join('') : flags)
-        : ''
-      ),
+      (Array.isArray(flags) ? flags.join('') : flags),
     );
   }
 }
@@ -122,9 +138,17 @@ export class Carol {
  * @returns { Carol } generated Carol instance
 */
 export function regex(pattern) {
+  if (!Array.isArray(pattern) && !(pattern instanceof RegExp)) {
+    throw new TypeError('invalid argument');
+  }
   return new Carol(
     Array.isArray(pattern)
-      ? pattern.map(x => x.source).join('')
+      ? pattern.map(x => {
+        if (!(x instanceof RegExp)) {
+          throw new TypeError('invalid argument');
+        }
+        return x.source;
+      }).join('')
       : pattern.source
   );
 }
