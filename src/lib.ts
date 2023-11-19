@@ -1,92 +1,86 @@
-export function regtree(source: Source, flags?: Flag | Flag[]): RegExp {
-  let pattern: string;
-  pattern = emit(source);
-  return new RegExp(pattern, (Array.isArray(flags) ? flags.join('') : flags));
+export class Regtree {
+  pattern: string;
+
+  constructor(node: Regtree | Regtree[])
+  constructor(pattern: string)
+  constructor(arg: string | Regtree | Regtree[]) {
+    if (Array.isArray(arg)) {
+      this.pattern = arg.map(x => x.pattern).join('');
+    } else if (arg instanceof Regtree) {
+      this.pattern = arg.pattern;
+    } else if (typeof arg === 'string') {
+      this.pattern = arg;
+    } else {
+      throw new TypeError('invalid argument');
+    }
+  }
+
+  many0(greedy?: boolean) {
+    let quantifier = '*';
+    if (greedy === false) {
+      quantifier += '?';
+    }
+    return new Regtree('(?:' + this.pattern + ')' + quantifier);
+  }
+
+  many1(greedy?: boolean) {
+    let quantifier = '+';
+    if (greedy === false) {
+      quantifier += '?';
+    }
+    return new Regtree('(?:' + this.pattern + ')' + quantifier);
+  }
+
+  manyJust(count: number): Regtree {
+    return new Regtree('(?:' + this.pattern + '){' + count + '}');
+  }
+
+  many(min: number, max: number, greedy?: boolean): Regtree
+  many(min: number, greedy?: boolean): Regtree
+  many(a: number, b?: number | boolean, c?: boolean): Regtree {
+    if (typeof a === 'number' && typeof b === 'number' && (c == null || typeof c === 'boolean')) {
+      let quantifier = '{' + a + ',' + b + '}';
+      if (c === false) {
+        quantifier += '?';
+      }
+      return new Regtree('(?:' + this.pattern + ')' + quantifier);
+    } else if (typeof a === 'number' && (b == null || typeof b === 'boolean')) {
+      let quantifier = '{' + a + ',' + '}';
+      if (b === false) {
+        quantifier += '?';
+      }
+      return new Regtree('(?:' + this.pattern + ')' + quantifier);
+    } else {
+      throw new TypeError('invalid argument');
+    }
+  }
+
+  capture() {
+    return new Regtree('(' + this.pattern + ')');
+  }
+
+  build(flags?: Flag | Flag[]): RegExp {
+    return new RegExp(
+      this.pattern,
+      (
+        flags != null
+        ? (Array.isArray(flags) ? flags.join('') : flags)
+        : ''
+      ),
+    );
+  }
 }
 
-export type Source = Element | Element[];
 export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
-export type Element = TextElement | CharElement | ManyElement | GroupElement;
 
-/** abc */
-export class TextElement {
-  public body: string;
-  constructor(
-    body: string | string[],
-  ) {
-    this.body = Array.isArray(body) ? body.join('') : body;
-  }
-}
-export function text(body: string | string[]): TextElement {
-  return new TextElement(body);
+export function regex(pattern: RegExp | RegExp[]): Regtree {
+  return new Regtree(
+    Array.isArray(pattern)
+      ? pattern.map(x => x.source).join('')
+      : pattern.source
+  );
 }
 
-/** [abc] or [a-z] */
-export class CharElement {
-  constructor(
-    public body: (string | { begin: string, end: string }) | (string | { begin: string, end: string })[],
-  ) { }
+export function seq(node: Regtree | Regtree[]): Regtree {
+  return new Regtree(node);
 }
-export function char(body: (string | { begin: string, end: string }) | (string | { begin: string, end: string })[]): CharElement {
-  return new CharElement(body);
-}
-
-/** a+ */
-export class ManyElement {
-  constructor(
-    public body: Element,
-    public min: 0 | 1,
-  ) { }
-}
-export function many(body: Element, min: 0 | 1): ManyElement {
-  return new ManyElement(body, min);
-}
-
-/** (abc) */
-export class GroupElement {
-  constructor(
-    public body: Element | Element[],
-  ) { }
-}
-export function group(body: Element | Element[]): GroupElement {
-  return new GroupElement(body);
-}
-
-//#region emit
-
-function emit(e: Element | Element[]): string {
-  if (Array.isArray(e)) {
-    return e.map(x => emit(x)).join('');
-  } else if (e instanceof TextElement) {
-    return e.body;
-  } else if (e instanceof CharElement) {
-    return emitCharElement(e);
-  } else if (e instanceof ManyElement) {
-    return emitManyElement(e);
-  } else if (e instanceof GroupElement) {
-    return emitGroupElement(e);
-  } else {
-    throw new Error('unknown element');
-  }
-}
-
-function emitCharElement(e: CharElement): string {
-  function emitSub(c: string | { begin: string, end: string }): string {
-    return (typeof c === 'string') ? c : `${c.begin}-${c.end}`;
-  }
-  if (Array.isArray(e.body)) {
-    return '[' + e.body.map(x => emitSub(x)).join('') + ']';
-  } else {
-    return '[' + emitSub(e.body) + ']';
-  }
-}
-
-function emitManyElement(e: ManyElement): string {
-  return emit(e.body) + (e.min == 0 ? '*' : '+');
-}
-
-function emitGroupElement(e: GroupElement): string {
-  return '(' + emit(e.body) + ')';
-}
-
-//#endregion emit

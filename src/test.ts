@@ -1,39 +1,66 @@
 import assert from 'assert';
 import {
-  regtree,
-  text,
-  char,
-  many,
-  group,
+  regex,
+  seq,
 } from './index.js';
 
-// text element
-assert.strictEqual(regtree(text('abc')).source, 'abc');
-assert.strictEqual(regtree([text('abc'), text('xyz')]).source, 'abcxyz');
+function test(name: string, testCase: () => void) {
+  try {
+    testCase();
+  } catch (e) {
+    console.error('[FAIL]', name);
+    console.error(e);
+    return;
+  }
+  console.log('[OK]', name);
+}
 
-// char element
-assert.strictEqual(regtree(char('abc')).source, '[abc]');
-assert.strictEqual(regtree(char({ begin: 'a', end: 'z' })).source, '[a-z]');
-assert.strictEqual(regtree(char(['abc', { begin: '0', end: '9' }])).source, '[abc0-9]');
+test('regex()', () => {
+  assert.strictEqual(regex(/abc/).build().source, 'abc');
+  assert.strictEqual(regex([/abc/, /xyz/]).build().source, 'abcxyz');
+});
 
-// many element
-assert.strictEqual(regtree(many(text('a'), 0)).source, 'a*');
-assert.strictEqual(regtree(many(text('a'), 1)).source, 'a+');
+test('.many0()', () => {
+  assert.strictEqual(regex(/abc/).many0().build().source, '(?:abc)*');
+});
 
-// group element
-assert.strictEqual(regtree(group(text('ab'))).source, '(ab)');
-assert.strictEqual(regtree(group([text('a'), text('b')])).source, '(ab)');
+test('.many0() greedy', () => {
+  assert.strictEqual(regex(/abc/).many0(true).build().source, '(?:abc)*');
+  assert.strictEqual(regex(/abc/).many0(false).build().source, '(?:abc)*?');
+});
 
-// example
-const regex = regtree([
-  text('hell'),
-  many(char('o'), 1),
-  text(' wo'),
-  many(char('r'), 1),
-  text('ld'),
-  many(char('!'), 0),
-]);
-assert.strictEqual(regex.source, /hell[o]+ wo[r]+ld[!]*/.source);
-assert.strictEqual(regex.test('helloo worrrrrld!!!'), true);
+test('.many1()', () => {
+  assert.strictEqual(regex(/abc/).many1().build().source, '(?:abc)+');
+});
 
-console.log('Done');
+test('.many1() greedy', () => {
+  assert.strictEqual(regex(/abc/).many1(true).build().source, '(?:abc)+');
+  assert.strictEqual(regex(/abc/).many1(false).build().source, '(?:abc)+?');
+});
+
+test('.many()', () => {
+  assert.strictEqual(regex(/abc/).many(0).build().source, '(?:abc){0,}');
+  assert.strictEqual(regex(/abc/).many(1).build().source, '(?:abc){1,}');
+  assert.strictEqual(regex(/abc/).many(2).build().source, '(?:abc){2,}');
+  assert.strictEqual(regex(/abc/).many(3, 5).build().source, '(?:abc){3,5}');
+});
+
+test('.many() greedy', () => {
+  assert.strictEqual(regex(/abc/).many(2, true).build().source, '(?:abc){2,}');
+  assert.strictEqual(regex(/abc/).many(3, 5, true).build().source, '(?:abc){3,5}');
+  assert.strictEqual(regex(/abc/).many(2, false).build().source, '(?:abc){2,}?');
+  assert.strictEqual(regex(/abc/).many(3, 5, false).build().source, '(?:abc){3,5}?');
+});
+
+test('.manyJust()', () => {
+  assert.strictEqual(regex(/abc/).manyJust(3).build().source, '(?:abc){3}');
+});
+
+test('.capture()', () => {
+  assert.strictEqual(regex(/abc/).capture().build().source, '(abc)');
+});
+
+test('seq()', () => {
+  assert.strictEqual(seq([regex(/abc/), regex(/xyz/)]).build().source, 'abcxyz');
+  assert.strictEqual(seq([regex(/abc/).many0(), regex(/xyz/)]).build().source, '(?:abc)*xyz');
+});
