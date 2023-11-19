@@ -1,13 +1,19 @@
 /**
+ * RegExp flag
  * @typedef {'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y'} Flag
 */
 
+/** A regex builder */
 export class Carol {
   /**
+   * Constructor
+   * 
    * @overload
    * @param { Carol | Carol[] } tree
   */
   /**
+   * Constructor
+   * 
    * @overload
    * @param { string } pattern
   */
@@ -31,6 +37,8 @@ export class Carol {
   }
 
   /**
+   * many 0
+   * 
    * @param { boolean | undefined } greedy
    * @returns { Carol } generated Carol instance
   */
@@ -46,6 +54,8 @@ export class Carol {
   }
 
   /**
+   * many 1
+   * 
    * @param { boolean | undefined } greedy
    * @returns { Carol } generated Carol instance
   */
@@ -61,6 +71,8 @@ export class Carol {
   }
 
   /**
+   * many just
+   * 
    * @param { number } count
    * @returns { Carol } generated Carol instance
   */
@@ -72,12 +84,16 @@ export class Carol {
   }
 
   /**
+   * many range
+   * 
    * @overload
    * @param { number } min
    * @param { boolean | undefined } greedy
    * @returns { Carol } generated Carol instance
   */
  /**
+  * many range
+  * 
    * @overload
    * @param { number } min
    * @param { number } max
@@ -109,6 +125,8 @@ export class Carol {
   }
 
   /**
+   * Capture text.
+   * 
    * @returns { Carol } generated Carol instance
   */
   capture() {
@@ -116,6 +134,8 @@ export class Carol {
   }
 
   /**
+   * build a RegExp from the Carol instance.
+   * 
    * @param { Flag | Flag[] | undefined } flags
    * @returns { RegExp } RegExp object
   */
@@ -134,6 +154,8 @@ export class Carol {
 }
 
 /**
+ * Create a Carol instance from a RegExp.
+ * 
  * @param { RegExp | RegExp[] } pattern
  * @returns { Carol } generated Carol instance
 */
@@ -154,6 +176,8 @@ export function regex(pattern) {
 }
 
 /**
+ * Create a Carol instance from sequence.
+ * 
  * @param { Carol | Carol[] } tree
  * @returns { Carol } generated Carol instance
 */
