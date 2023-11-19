@@ -2,8 +2,9 @@
   "name": "carol-js",
   "version": "1.0.0",
   "description": "A small tool for building regular expressions in JavaScript.",
-  "main": "./index.mjs",
-  "module": "./index.mjs",
+  "type": "module",
+  "module": "./carol.mjs",
+  "types": "./carol.d.mts",
   "scripts": {
     "test": "node ./test.mjs"
   },
@@ -11,5 +12,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.8.8"
-  }
+  },
+  "files": [
+    "carol.mjs",
+    "carol.d.mts"
+  ]
 }

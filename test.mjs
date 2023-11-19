@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as C from './index.mjs';
+import * as C from './carol.mjs';
 
 /**
  * @param {string} name
