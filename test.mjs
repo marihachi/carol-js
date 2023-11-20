@@ -81,5 +81,5 @@ test('hello world', () => {
 });
 
 if (!success) {
-  exit(1);
+  process.exit(1);
 }
