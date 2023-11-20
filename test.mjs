@@ -1,6 +1,8 @@
 import assert from 'assert';
 import * as C from './carol.mjs';
 
+let success = true;
+
 /**
  * @param {string} name
  * @param {() => void} testCase
@@ -11,6 +13,7 @@ function test(name, testCase) {
   } catch (e) {
     console.error('[FAIL]', name);
     console.error(e);
+    success = false;
     return;
   }
   console.log('[OK]', name);
@@ -76,3 +79,7 @@ test('hello world', () => {
   assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
   assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 });
+
+if (!success) {
+  exit(1);
+}
