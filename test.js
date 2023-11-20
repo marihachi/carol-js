@@ -66,8 +66,8 @@ test('hello world', () => {
 const tests = run();
 
 tests.on('test:fail', (data) => {
-  console.log('[FAIL]', data);
+  console.log('[FAIL]', data.name);
 });
 tests.on('test:pass', (data) => {
-  console.log('[PASS]', data);
+  console.log('[PASS]', data.name);
 });
