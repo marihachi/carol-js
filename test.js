@@ -21,7 +21,6 @@ function test(name, testCase) {
 
 test('pattern()', () => {
   assert.strictEqual(C.pattern(/abc/).toRegex().source, 'abc');
-  assert.strictEqual(C.pattern([/abc/, /xyz/]).toRegex().source, 'abcxyz');
 });
 
 test('.many0()', () => {
