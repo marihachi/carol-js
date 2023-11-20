@@ -104,19 +104,17 @@ export class Pattern {
    * @returns { Pattern }
   */
   many(...args) {
-    let min, max, greedy;
-    if (typeof args[0] !== 'number')
-      throw new TypeError('invalid argument');
-    min = args[0];
+    const min = args[0];
+    let max, greedy;
     if (typeof args[1] === 'number') {
-      max = undefined;
-      greedy = args[1];
-    } else {
-      if (typeof args[1] !== 'number')
-        throw new TypeError('invalid argument');
       max = args[1];
       greedy = args[2];
+    } else {
+      max = undefined;
+      greedy = args[1];
     }
+    if (typeof min !== 'number')
+      throw new TypeError('invalid argument');
     if (greedy != null && typeof greedy !== 'boolean')
       throw new TypeError('invalid argument');
     let quantifier = '{' + min + ',' + (max ?? '') + '}';
