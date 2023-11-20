@@ -2,49 +2,62 @@
  * RegExp flag
 */
 export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+
 /**
- * Pattern object
+ * Pattern Model
 */
 export declare class Pattern {
   source: string;
+
   /**
    * Constructor
   */
   constructor(source: string);
+
   /**
-   * Creates a new Pattern object that repeats the pattern with `*`.
+   * Creates a new pattern that repeats the pattern with `*`.
   */
   many0(greedy?: boolean): Pattern;
+
   /**
-   * Creates a new Pattern object that repeats the pattern with `+`.
+   * Creates a new pattern that repeats the pattern with `+`.
   */
   many1(greedy?: boolean): Pattern;
+
   /**
-   * Creates a new Pattern object that repeats the pattern with `{count}`.
+   * Creates a new pattern that repeats the pattern with `{count}`.
   */
   manyJust(count: number): Pattern;
+
   /**
-   * Creates a new Pattern object that repeats the pattern with `{min,}`.
+   * Creates a new pattern that repeats the pattern with `{min,}`.
   */
   many(min: number, greedy?: boolean): Pattern;
+
   /**
-   * Creates a new Pattern object that repeats the pattern with `{min,max}`.
+   * Creates a new pattern that repeats the pattern with `{min,max}`.
   */
   many(min: number, max: number, greedy?: boolean): Pattern;
+
   /**
-   * Capture text with `()`.
+   * Capture the pattern.
   */
   capture(): Pattern;
+
   /**
    * Build a RegExp from the pattern.
+   * @param flags regex flags
   */
-  build(flags?: Flag | Flag[]): RegExp;
+  toRegex(flags?: Flag | Flag[]): RegExp;
 }
+
 /**
- * Creates a new Pattern object from a RegExp object.
+ * Creates a new pattern from a RegExp or regex string.
 */
-export declare function regex(pattern: RegExp | RegExp[]): Pattern;
+export declare function pattern(source: string | RegExp): Pattern;
+
 /**
- * Creates a new Pattern object from a sequence of Pattern objects.
+ * Creates a new pattern from a pattern sequence.
+ * @param patterns pattern sequence
 */
-export declare function seq(tree: Pattern | Pattern[]): Pattern;
+export declare function seq(patterns: Pattern[]): Pattern;

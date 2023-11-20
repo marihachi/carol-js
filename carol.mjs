@@ -4,7 +4,7 @@
 */
 
 /**
- * Pattern object
+ * Pattern Model
 */
 export class Pattern {
   /**
@@ -19,9 +19,9 @@ export class Pattern {
   }
 
   /**
-   * Creates a new Pattern object that repeats the pattern with `*`.
+   * Creates a new pattern that repeats the pattern with `*`.
    * @param { boolean | undefined } greedy
-   * @returns { Pattern } generated Pattern object
+   * @returns { Pattern }
   */
   many0(greedy) {
     if (greedy != null && typeof greedy !== 'boolean') {
@@ -36,9 +36,9 @@ export class Pattern {
   }
 
   /**
-   * Creates a new Pattern object that repeats the pattern with `+`.
+   * Creates a new pattern that repeats the pattern with `+`.
    * @param { boolean | undefined } greedy
-   * @returns { Pattern } generated Pattern object
+   * @returns { Pattern }
   */
   many1(greedy) {
     if (greedy != null && typeof greedy !== 'boolean') {
@@ -53,9 +53,9 @@ export class Pattern {
   }
 
   /**
-   * Creates a new Pattern object that repeats the pattern with `{count}`.
+   * Creates a new pattern that repeats the pattern with `{count}`.
    * @param { number } count
-   * @returns { Pattern } generated Pattern object
+   * @returns { Pattern }
   */
   manyJust(count) {
     if (typeof count !== 'number') {
@@ -65,19 +65,19 @@ export class Pattern {
   }
 
   /**
-   * Creates a new Pattern object that repeats the pattern with `{min,}`.
+   * Creates a new pattern that repeats the pattern with `{min,}`.
    * @overload
    * @param { number } min
    * @param { boolean | undefined } greedy
-   * @returns { Pattern } generated Pattern object
+   * @returns { Pattern }
   */
   /**
-   * Creates a new Pattern object that repeats the pattern with `{min,max}`.
+   * Creates a new pattern that repeats the pattern with `{min,max}`.
    * @overload
    * @param { number } min
    * @param { number } max
    * @param { boolean | undefined } greedy
-   * @returns { Pattern } generated Pattern object
+   * @returns { Pattern }
   */
   /** @param { unknown[] } args */
   many(...args) {
@@ -108,8 +108,8 @@ export class Pattern {
   }
 
   /**
-   * Capture text with `()`.
-   * @returns { Pattern } generated Pattern object
+   * Capture the pattern.
+   * @returns { Pattern }
   */
   capture() {
     return new Pattern('(' + this.source + ')');
@@ -117,10 +117,10 @@ export class Pattern {
 
   /**
    * Build a RegExp from the pattern.
-   * @param { Flag | Flag[] | undefined } flags
-   * @returns { RegExp } RegExp object
+   * @param { Flag | Flag[] | undefined } flags regex flags
+   * @returns { RegExp }
   */
-  build(flags) {
+  toRegex(flags) {
     if (flags == null || typeof flags === 'string') {
       return new RegExp(this.source, flags);
     }
@@ -132,31 +132,26 @@ export class Pattern {
 }
 
 /**
- * Creates a new Pattern object from a RegExp object.
- * @param { RegExp | RegExp[] } pattern
- * @returns { Pattern } generated Pattern object
+ * Creates a new pattern from a RegExp or regex string.
+ * @param { string | RegExp } source 
+ * @returns { Pattern }
 */
-export function regex(pattern) {
-  let source;
-  if (pattern instanceof RegExp) {
-    source = pattern.source;
-  } else if (Array.isArray(pattern)) {
-    source = pattern.map(x => {
-      if (!(x instanceof RegExp)) {
-        throw new TypeError('invalid argument');
-      }
-      return x.source;
-    }).join('');
+export function pattern(source) {
+  let patternSource;
+  if (typeof source === 'string') {
+    patternSource = source;
+  } else if (source instanceof RegExp) {
+    patternSource = source.source;
   } else {
     throw new TypeError('invalid argument');
   }
-  return new Pattern(source);
+  return new Pattern(patternSource);
 }
 
 /**
- * Creates a new Pattern object from a sequence of Pattern objects.
- * @param { Pattern[] } patterns
- * @returns { Pattern } generated Pattern object
+ * Creates a new pattern from a pattern sequence.
+ * @param { Pattern[] } patterns pattern sequence
+ * @returns { Pattern }
 */
 export function seq(patterns) {
   if (!Array.isArray(patterns)) {

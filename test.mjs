@@ -16,63 +16,63 @@ function test(name, testCase) {
   console.log('[OK]', name);
 }
 
-test('carol()', () => {
-  assert.strictEqual(C.regex(/abc/).build().source, 'abc');
-  assert.strictEqual(C.regex([/abc/, /xyz/]).build().source, 'abcxyz');
+test('pattern()', () => {
+  assert.strictEqual(C.pattern(/abc/).toRegex().source, 'abc');
+  assert.strictEqual(C.pattern([/abc/, /xyz/]).toRegex().source, 'abcxyz');
 });
 
 test('.many0()', () => {
-  assert.strictEqual(C.regex(/abc/).many0().build().source, '(?:abc)*');
+  assert.strictEqual(C.pattern(/abc/).many0().toRegex().source, '(?:abc)*');
 });
 
 test('.many0() greedy', () => {
-  assert.strictEqual(C.regex(/abc/).many0(true).build().source, '(?:abc)*');
-  assert.strictEqual(C.regex(/abc/).many0(false).build().source, '(?:abc)*?');
+  assert.strictEqual(C.pattern(/abc/).many0(true).toRegex().source, '(?:abc)*');
+  assert.strictEqual(C.pattern(/abc/).many0(false).toRegex().source, '(?:abc)*?');
 });
 
 test('.many1()', () => {
-  assert.strictEqual(C.regex(/abc/).many1().build().source, '(?:abc)+');
+  assert.strictEqual(C.pattern(/abc/).many1().toRegex().source, '(?:abc)+');
 });
 
 test('.many1() greedy', () => {
-  assert.strictEqual(C.regex(/abc/).many1(true).build().source, '(?:abc)+');
-  assert.strictEqual(C.regex(/abc/).many1(false).build().source, '(?:abc)+?');
+  assert.strictEqual(C.pattern(/abc/).many1(true).toRegex().source, '(?:abc)+');
+  assert.strictEqual(C.pattern(/abc/).many1(false).toRegex().source, '(?:abc)+?');
 });
 
 test('.many()', () => {
-  assert.strictEqual(C.regex(/abc/).many(0).build().source, '(?:abc){0,}');
-  assert.strictEqual(C.regex(/abc/).many(1).build().source, '(?:abc){1,}');
-  assert.strictEqual(C.regex(/abc/).many(2).build().source, '(?:abc){2,}');
-  assert.strictEqual(C.regex(/abc/).many(3, 5).build().source, '(?:abc){3,5}');
+  assert.strictEqual(C.pattern(/abc/).many(0).toRegex().source, '(?:abc){0,}');
+  assert.strictEqual(C.pattern(/abc/).many(1).toRegex().source, '(?:abc){1,}');
+  assert.strictEqual(C.pattern(/abc/).many(2).toRegex().source, '(?:abc){2,}');
+  assert.strictEqual(C.pattern(/abc/).many(3, 5).toRegex().source, '(?:abc){3,5}');
 });
 
 test('.many() greedy', () => {
-  assert.strictEqual(C.regex(/abc/).many(2, true).build().source, '(?:abc){2,}');
-  assert.strictEqual(C.regex(/abc/).many(3, 5, true).build().source, '(?:abc){3,5}');
-  assert.strictEqual(C.regex(/abc/).many(2, false).build().source, '(?:abc){2,}?');
-  assert.strictEqual(C.regex(/abc/).many(3, 5, false).build().source, '(?:abc){3,5}?');
+  assert.strictEqual(C.pattern(/abc/).many(2, true).toRegex().source, '(?:abc){2,}');
+  assert.strictEqual(C.pattern(/abc/).many(3, 5, true).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(C.pattern(/abc/).many(2, false).toRegex().source, '(?:abc){2,}?');
+  assert.strictEqual(C.pattern(/abc/).many(3, 5, false).toRegex().source, '(?:abc){3,5}?');
 });
 
 test('.manyJust()', () => {
-  assert.strictEqual(C.regex(/abc/).manyJust(3).build().source, '(?:abc){3}');
+  assert.strictEqual(C.pattern(/abc/).manyJust(3).toRegex().source, '(?:abc){3}');
 });
 
 test('.capture()', () => {
-  assert.strictEqual(C.regex(/abc/).capture().build().source, '(abc)');
+  assert.strictEqual(C.pattern(/abc/).capture().toRegex().source, '(abc)');
 });
 
 test('seq()', () => {
-  assert.strictEqual(C.seq([C.regex(/abc/), C.regex(/xyz/)]).build().source, 'abcxyz');
-  assert.strictEqual(C.seq([C.regex(/abc/).many0(), C.regex(/xyz/)]).build().source, '(?:abc)*xyz');
+  assert.strictEqual(C.seq([C.pattern(/abc/), C.pattern(/xyz/)]).toRegex().source, 'abcxyz');
+  assert.strictEqual(C.seq([C.pattern(/abc/).many0(), C.pattern(/xyz/)]).toRegex().source, '(?:abc)*xyz');
 });
 
 test('hello world', () => {
   const r = C.seq([
-    C.regex(/hello/),
-    C.regex(/ /),
-    C.regex(/world/),
-    C.regex(/!/).many0(),
-  ]).many1().build();
+    C.pattern(/hello/),
+    C.pattern(/ /),
+    C.pattern(/world/),
+    C.pattern(/!/).many0(),
+  ]).many1().toRegex();
   assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
   assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 });

@@ -1,12 +1,12 @@
 {
   "name": "carol-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
-  "description": "A small tool for building regular expressions in JavaScript.",
+  "description": "A small tool for building regular expressions.",
   "keywords": [
     "regex",
     "regular-expression",
-    "builder"
+    "utility"
   ],
   "author": "marihachi <marihachi0620@gmail.com>",
   "repository": "https://github.com/marihachi/carol-js.git",

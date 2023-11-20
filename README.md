@@ -7,11 +7,11 @@ We build a RegExp object by combining functions.
 import * as C from 'carol-js';
 
 const regex = C.seq([
-  C.regex(/hello/),
-  C.regex(/ /),
-  C.regex(/world/),
-  C.regex(/!/).many0(),
-]).many1().build();
+  C.pattern(/hello/),
+  C.pattern(/ /),
+  C.pattern(/world/),
+  C.pattern(/!/).many0(),
+]).many1().toRegex();
 
 assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
 assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
