@@ -62,12 +62,3 @@ test('hello world', () => {
   assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
   assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 });
-
-const tests = run();
-
-tests.on('test:fail', (data) => {
-  console.log('[FAIL]', data.name);
-});
-tests.on('test:pass', (data) => {
-  console.log('[PASS]', data.name);
-});
