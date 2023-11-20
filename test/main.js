@@ -1,6 +1,6 @@
-import { strict as assert } from 'node:assert';
-import test, { run } from 'node:test';
-import * as C from './carol.js';
+import assert from 'node:assert';
+import test from 'node:test';
+import * as C from 'carol-js';
 
 test('pattern()', () => {
   assert.strictEqual(C.pattern(/abc/).toRegex().source, 'abc');

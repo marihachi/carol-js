@@ -13,13 +13,23 @@
   "repository": "https://github.com/marihachi/carol-js.git",
   "bugs": "https://github.com/marihachi/carol-js/issues",
   "type": "module",
-  "module": "./carol.js",
-  "types": "./carol.d.ts",
+  "module": "./lib/carol.js",
+  "types": "./lib/carol.d.ts",
+  "exports": {
+		".": {
+			"import": "./lib/carol.js",
+			"types": "./lib/carol.d.ts"
+		},
+		"./*": {
+			"import": "./lib/*",
+			"types": "./lib/*"
+		}
+	},
   "scripts": {
-    "test": "node --test ./test.js"
+    "test": "node --test ./test/*.js"
   },
   "files": [
-    "carol.js",
-    "carol.d.ts"
+    "./lib/carol.js",
+    "./lib/carol.d.ts"
   ]
 }
