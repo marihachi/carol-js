@@ -39,7 +39,7 @@ export class Pattern {
   */
   constructor(source) {
     if (typeof source !== 'string')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "source" is invalid');
     this.source = source;
   }
 
@@ -50,7 +50,7 @@ export class Pattern {
   */
   many0(greedy) {
     if (greedy != null && typeof greedy !== 'boolean')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "greedy" is invalid');
     let quantifier = '*';
     // non-greedy
     if (greedy === false)
@@ -65,7 +65,7 @@ export class Pattern {
   */
   many1(greedy) {
     if (greedy != null && typeof greedy !== 'boolean')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "greedy" is invalid');
     let quantifier = '+';
     // non-greedy
     if (greedy === false)
@@ -80,7 +80,7 @@ export class Pattern {
   */
   manyJust(count) {
     if (typeof count !== 'number')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "count" is invalid');
     return new Pattern('(?:' + this.source + '){' + count + '}');
   }
 
@@ -114,9 +114,9 @@ export class Pattern {
       greedy = args[1];
     }
     if (typeof min !== 'number')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "min" is invalid');
     if (greedy != null && typeof greedy !== 'boolean')
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "greedy" is invalid');
     let quantifier = '{' + min + ',' + (max ?? '') + '}';
     // non-greedy
     if (greedy === false)
@@ -142,7 +142,7 @@ export class Pattern {
       return new RegExp(this.source, flags);
     if (Array.isArray(flags))
       return new RegExp(this.source, flags.join(''));
-    throw new TypeError('invalid argument');
+    throw new TypeError('argument "flags" is invalid');
   }
 }
 
@@ -158,7 +158,7 @@ export function pattern(source) {
   else if (source instanceof RegExp)
     patternSource = source.source;
   else
-    throw new TypeError('invalid argument');
+    throw new TypeError('argument "source" is invalid');
   return new Pattern(patternSource);
 }
 
@@ -169,10 +169,10 @@ export function pattern(source) {
 */
 export function seq(patterns) {
   if (!Array.isArray(patterns))
-    throw new TypeError('invalid argument');
+    throw new TypeError('argument "patterns" is invalid');
   const source = patterns.map(x => {
     if (!(x instanceof Pattern))
-      throw new TypeError('invalid argument');
+      throw new TypeError('argument "patterns" is invalid');
     return x.source;
   }).join('');
   return new Pattern(source);
