@@ -27,7 +27,7 @@ npm i carol-js
 git clone https://github.com/marihachi/carol-js.git
 cd carol-js
 npm i
-npm run test
+npm test
 ```
 
 ## License
