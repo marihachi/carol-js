@@ -38,9 +38,8 @@ export class Pattern {
    * @param { string } source
   */
   constructor(source) {
-    if (typeof source !== 'string') {
+    if (typeof source !== 'string')
       throw new TypeError('invalid argument');
-    }
     this.source = source;
   }
 
@@ -50,14 +49,12 @@ export class Pattern {
    * @returns { Pattern }
   */
   many0(greedy) {
-    if (greedy != null && typeof greedy !== 'boolean') {
+    if (greedy != null && typeof greedy !== 'boolean')
       throw new TypeError('invalid argument');
-    }
     let quantifier = '*';
     // non-greedy
-    if (greedy === false) {
+    if (greedy === false)
       quantifier += '?';
-    }
     return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
@@ -67,14 +64,12 @@ export class Pattern {
    * @returns { Pattern }
   */
   many1(greedy) {
-    if (greedy != null && typeof greedy !== 'boolean') {
+    if (greedy != null && typeof greedy !== 'boolean')
       throw new TypeError('invalid argument');
-    }
     let quantifier = '+';
     // non-greedy
-    if (greedy === false) {
+    if (greedy === false)
       quantifier += '?';
-    }
     return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
@@ -84,9 +79,8 @@ export class Pattern {
    * @returns { Pattern }
   */
   manyJust(count) {
-    if (typeof count !== 'number') {
+    if (typeof count !== 'number')
       throw new TypeError('invalid argument');
-    }
     return new Pattern('(?:' + this.source + '){' + count + '}');
   }
 
@@ -105,31 +99,30 @@ export class Pattern {
    * @param { boolean | undefined } greedy
    * @returns { Pattern }
   */
-  /** @param { unknown[] } args */
+  /**
+   * @param { unknown[] } args
+   * @returns { Pattern }
+  */
   many(...args) {
     let min, max, greedy;
-    if (typeof args[0] !== 'number') {
+    if (typeof args[0] !== 'number')
       throw new TypeError('invalid argument');
-    }
     min = args[0];
     if (typeof args[1] === 'number') {
       max = undefined;
       greedy = args[1];
     } else {
-      if (typeof args[1] !== 'number') {
+      if (typeof args[1] !== 'number')
         throw new TypeError('invalid argument');
-      }
       max = args[1];
       greedy = args[2];
     }
-    if (greedy != null && typeof greedy !== 'boolean') {
+    if (greedy != null && typeof greedy !== 'boolean')
       throw new TypeError('invalid argument');
-    }
     let quantifier = '{' + min + ',' + (max ?? '') + '}';
     // non-greedy
-    if (greedy === false) {
+    if (greedy === false)
       quantifier += '?';
-    }
     return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
@@ -147,12 +140,10 @@ export class Pattern {
    * @returns { RegExp }
   */
   toRegex(flags) {
-    if (flags == null || typeof flags === 'string') {
+    if (flags == null || typeof flags === 'string')
       return new RegExp(this.source, flags);
-    }
-    if (Array.isArray(flags)) {
+    if (Array.isArray(flags))
       return new RegExp(this.source, flags.join(''));
-    }
     throw new TypeError('invalid argument');
   }
 }
@@ -164,13 +155,12 @@ export class Pattern {
 */
 export function pattern(source) {
   let patternSource;
-  if (typeof source === 'string') {
+  if (typeof source === 'string')
     patternSource = source;
-  } else if (source instanceof RegExp) {
+  else if (source instanceof RegExp)
     patternSource = source.source;
-  } else {
+  else
     throw new TypeError('invalid argument');
-  }
   return new Pattern(patternSource);
 }
 
@@ -180,13 +170,11 @@ export function pattern(source) {
  * @returns { Pattern }
 */
 export function seq(patterns) {
-  if (!Array.isArray(patterns)) {
+  if (!Array.isArray(patterns))
     throw new TypeError('invalid argument');
-  }
   const source = patterns.map(x => {
-    if (!(x instanceof Pattern)) {
+    if (!(x instanceof Pattern))
       throw new TypeError('invalid argument');
-    }
     return x.source;
   }).join('');
   return new Pattern(source);
