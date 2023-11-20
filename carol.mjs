@@ -3,184 +3,170 @@
  * @typedef {'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y'} Flag
 */
 
-/** A regex builder */
-export class Carol {
+/**
+ * Pattern object
+*/
+export class Pattern {
   /**
    * Constructor
-   * 
-   * @overload
-   * @param { Carol | Carol[] } tree
+   * @param { string } source
   */
-  /**
-   * Constructor
-   * 
-   * @overload
-   * @param { string } pattern
-  */
-  /** @param { unknown } arg */
-  constructor(arg) {
-    if (Array.isArray(arg)) {
-      /** @type {string} */
-      this.pattern = arg.map(x => {
-        if (!(x instanceof Carol)) {
-          throw new TypeError('invalid argument');
-        }
-        return x.pattern;
-      }).join('');
-    } else if (arg instanceof Carol) {
-      this.pattern = arg.pattern;
-    } else if (typeof arg === 'string') {
-      this.pattern = arg;
-    } else {
+  constructor(source) {
+    if (typeof source !== 'string') {
       throw new TypeError('invalid argument');
     }
+    this.source = source;
   }
 
   /**
-   * many 0
-   * 
+   * Creates a new Pattern object that repeats the pattern with `*`.
    * @param { boolean | undefined } greedy
-   * @returns { Carol } generated Carol instance
+   * @returns { Pattern } generated Pattern object
   */
   many0(greedy) {
     if (greedy != null && typeof greedy !== 'boolean') {
       throw new TypeError('invalid argument');
     }
     let quantifier = '*';
+    // non-greedy
     if (greedy === false) {
       quantifier += '?';
     }
-    return new Carol('(?:' + this.pattern + ')' + quantifier);
+    return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
   /**
-   * many 1
-   * 
+   * Creates a new Pattern object that repeats the pattern with `+`.
    * @param { boolean | undefined } greedy
-   * @returns { Carol } generated Carol instance
+   * @returns { Pattern } generated Pattern object
   */
   many1(greedy) {
     if (greedy != null && typeof greedy !== 'boolean') {
       throw new TypeError('invalid argument');
     }
     let quantifier = '+';
+    // non-greedy
     if (greedy === false) {
       quantifier += '?';
     }
-    return new Carol('(?:' + this.pattern + ')' + quantifier);
+    return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
   /**
-   * many just
-   * 
+   * Creates a new Pattern object that repeats the pattern with `{count}`.
    * @param { number } count
-   * @returns { Carol } generated Carol instance
+   * @returns { Pattern } generated Pattern object
   */
   manyJust(count) {
     if (typeof count !== 'number') {
       throw new TypeError('invalid argument');
     }
-    return new Carol('(?:' + this.pattern + '){' + count + '}');
+    return new Pattern('(?:' + this.source + '){' + count + '}');
   }
 
   /**
-   * many range
-   * 
+   * Creates a new Pattern object that repeats the pattern with `{min,}`.
    * @overload
    * @param { number } min
    * @param { boolean | undefined } greedy
-   * @returns { Carol } generated Carol instance
+   * @returns { Pattern } generated Pattern object
   */
- /**
-  * many range
-  * 
+  /**
+   * Creates a new Pattern object that repeats the pattern with `{min,max}`.
    * @overload
    * @param { number } min
    * @param { number } max
    * @param { boolean | undefined } greedy
-   * @returns { Carol } generated Carol instance
+   * @returns { Pattern } generated Pattern object
   */
   /** @param { unknown[] } args */
   many(...args) {
-    if (typeof args[0] === 'number' && typeof args[1] === 'number' && (args[2] == null || typeof args[2] === 'boolean')) {
-      const min = args[0];
-      const max = args[1];
-      const greedy = args[2];
-      let quantifier = '{' + min + ',' + max + '}';
-      if (greedy === false) {
-        quantifier += '?';
-      }
-      return new Carol('(?:' + this.pattern + ')' + quantifier);
-    } else if (typeof args[0] === 'number' && (args[1] == null || typeof args[1] === 'boolean')) {
-      const min = args[0];
-      const greedy = args[1];
-      let quantifier = '{' + min + ',' + '}';
-      if (greedy === false) {
-        quantifier += '?';
-      }
-      return new Carol('(?:' + this.pattern + ')' + quantifier);
-    } else {
+    let min, max, greedy;
+    if (typeof args[0] !== 'number') {
       throw new TypeError('invalid argument');
     }
+    min = args[0];
+    if (typeof args[1] === 'number') {
+      max = undefined;
+      greedy = args[1];
+    } else {
+      if (typeof args[1] !== 'number') {
+        throw new TypeError('invalid argument');
+      }
+      max = args[1];
+      greedy = args[2];
+    }
+    if (greedy != null && typeof greedy !== 'boolean') {
+      throw new TypeError('invalid argument');
+    }
+    let quantifier = '{' + min + ',' + (max ?? '') + '}';
+    // non-greedy
+    if (greedy === false) {
+      quantifier += '?';
+    }
+    return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
   /**
-   * Capture text.
-   * 
-   * @returns { Carol } generated Carol instance
+   * Capture text with `()`.
+   * @returns { Pattern } generated Pattern object
   */
   capture() {
-    return new Carol('(' + this.pattern + ')');
+    return new Pattern('(' + this.source + ')');
   }
 
   /**
-   * build a RegExp from the Carol instance.
-   * 
+   * Build a RegExp from the pattern.
    * @param { Flag | Flag[] | undefined } flags
    * @returns { RegExp } RegExp object
   */
   build(flags) {
-    if (flags == null) {
-      flags = '';
+    if (flags == null || typeof flags === 'string') {
+      return new RegExp(this.source, flags);
     }
-    if (!Array.isArray(flags) && typeof flags !== 'string') {
-      throw new TypeError('invalid argument');
+    if (Array.isArray(flags)) {
+      return new RegExp(this.source, flags.join(''));
     }
-    return new RegExp(
-      this.pattern,
-      (Array.isArray(flags) ? flags.join('') : flags),
-    );
-  }
-}
-
-/**
- * Create a Carol instance from a RegExp.
- * 
- * @param { RegExp | RegExp[] } pattern
- * @returns { Carol } generated Carol instance
-*/
-export function regex(pattern) {
-  if (!Array.isArray(pattern) && !(pattern instanceof RegExp)) {
     throw new TypeError('invalid argument');
   }
-  return new Carol(
-    Array.isArray(pattern)
-      ? pattern.map(x => {
-        if (!(x instanceof RegExp)) {
-          throw new TypeError('invalid argument');
-        }
-        return x.source;
-      }).join('')
-      : pattern.source
-  );
 }
 
 /**
- * Create a Carol instance from sequence.
- * 
- * @param { Carol | Carol[] } tree
- * @returns { Carol } generated Carol instance
+ * Creates a new Pattern object from a RegExp object.
+ * @param { RegExp | RegExp[] } pattern
+ * @returns { Pattern } generated Pattern object
 */
-export function seq(tree) {
-  return new Carol(tree);
+export function regex(pattern) {
+  let source;
+  if (pattern instanceof RegExp) {
+    source = pattern.source;
+  } else if (Array.isArray(pattern)) {
+    source = pattern.map(x => {
+      if (!(x instanceof RegExp)) {
+        throw new TypeError('invalid argument');
+      }
+      return x.source;
+    }).join('');
+  } else {
+    throw new TypeError('invalid argument');
+  }
+  return new Pattern(source);
+}
+
+/**
+ * Creates a new Pattern object from a sequence of Pattern objects.
+ * @param { Pattern[] } patterns
+ * @returns { Pattern } generated Pattern object
+*/
+export function seq(patterns) {
+  if (!Array.isArray(patterns)) {
+    throw new TypeError('invalid argument');
+  }
+  const source = patterns.map(x => {
+    if (!(x instanceof Pattern)) {
+      throw new TypeError('invalid argument');
+    }
+    return x.source;
+  }).join('');
+  return new Pattern(source);
 }

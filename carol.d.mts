@@ -1,15 +1,50 @@
-export declare class Carol {
-  pattern: string;
-  constructor(tree: Carol | Carol[]);
-  constructor(pattern: string);
-  many0(greedy?: boolean): Carol;
-  many1(greedy?: boolean): Carol;
-  manyJust(count: number): Carol;
-  many(min: number, max: number, greedy?: boolean): Carol;
-  many(min: number, greedy?: boolean): Carol;
-  capture(): Carol;
+/**
+ * RegExp flag
+*/
+export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+/**
+ * Pattern object
+*/
+export declare class Pattern {
+  source: string;
+  /**
+   * Constructor
+  */
+  constructor(source: string);
+  /**
+   * Creates a new Pattern object that repeats the pattern with `*`.
+  */
+  many0(greedy?: boolean): Pattern;
+  /**
+   * Creates a new Pattern object that repeats the pattern with `+`.
+  */
+  many1(greedy?: boolean): Pattern;
+  /**
+   * Creates a new Pattern object that repeats the pattern with `{count}`.
+  */
+  manyJust(count: number): Pattern;
+  /**
+   * Creates a new Pattern object that repeats the pattern with `{min,}`.
+  */
+  many(min: number, greedy?: boolean): Pattern;
+  /**
+   * Creates a new Pattern object that repeats the pattern with `{min,max}`.
+  */
+  many(min: number, max: number, greedy?: boolean): Pattern;
+  /**
+   * Capture text with `()`.
+  */
+  capture(): Pattern;
+  /**
+   * Build a RegExp from the pattern.
+  */
   build(flags?: Flag | Flag[]): RegExp;
 }
-export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
-export declare function regex(pattern: RegExp | RegExp[]): Carol;
-export declare function seq(tree: Carol | Carol[]): Carol;
+/**
+ * Creates a new Pattern object from a RegExp object.
+*/
+export declare function regex(pattern: RegExp | RegExp[]): Pattern;
+/**
+ * Creates a new Pattern object from a sequence of Pattern objects.
+*/
+export declare function seq(tree: Pattern | Pattern[]): Pattern;
