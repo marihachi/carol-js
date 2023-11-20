@@ -6,6 +6,7 @@
 - API: Remove orverload `seq(Pattern)`
 - API: Add overload `pattern(string)`
 - API: Remove orverload `pattern(RegExp[])`
+- API: Improve error messages.
 - other: rename library filenames.
 
 ## 0.1.0
