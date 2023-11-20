@@ -13,13 +13,13 @@
   "repository": "https://github.com/marihachi/carol-js.git",
   "bugs": "https://github.com/marihachi/carol-js/issues",
   "type": "module",
-  "module": "./carol.mjs",
-  "types": "./carol.d.mts",
+  "module": "./carol.js",
+  "types": "./carol.d.ts",
   "scripts": {
-    "test": "node ./test.mjs"
+    "test": "node ./test.js"
   },
   "files": [
-    "carol.mjs",
-    "carol.d.mts"
+    "carol.js",
+    "carol.d.ts"
   ]
 }
