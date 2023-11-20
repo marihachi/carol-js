@@ -6,7 +6,8 @@
   "keywords": [
     "regex",
     "regular-expression",
-    "utility"
+    "utility",
+    "builder"
   ],
   "author": "marihachi <marihachi0620@gmail.com>",
   "repository": "https://github.com/marihachi/carol-js.git",
@@ -16,9 +17,6 @@
   "types": "./carol.d.mts",
   "scripts": {
     "test": "node ./test.mjs"
-  },
-  "devDependencies": {
-    "@types/node": "^20.8.8"
   },
   "files": [
     "carol.mjs",
