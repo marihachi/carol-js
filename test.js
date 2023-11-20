@@ -1,5 +1,5 @@
 import assert from 'assert';
-import * as C from './carol.mjs';
+import * as C from './carol.js';
 
 let success = true;
 
