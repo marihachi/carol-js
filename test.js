@@ -1,23 +1,6 @@
-import assert from 'assert';
+import { strict as assert } from 'node:assert';
+import test, { run } from 'node:test';
 import * as C from './carol.js';
-
-let success = true;
-
-/**
- * @param {string} name
- * @param {() => void} testCase
-*/
-function test(name, testCase) {
-  try {
-    testCase();
-  } catch (e) {
-    console.error('[FAIL]', name);
-    console.error(e);
-    success = false;
-    return;
-  }
-  console.log('[OK]', name);
-}
 
 test('pattern()', () => {
   assert.strictEqual(C.pattern(/abc/).toRegex().source, 'abc');
@@ -80,6 +63,11 @@ test('hello world', () => {
   assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
 });
 
-if (!success) {
-  process.exit(1);
-}
+const tests = run();
+
+tests.on('test:fail', (data) => {
+  console.log('[FAIL]', data);
+});
+tests.on('test:pass', (data) => {
+  console.log('[PASS]', data);
+});
