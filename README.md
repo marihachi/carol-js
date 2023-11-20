@@ -17,6 +17,9 @@ assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
 assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
 ```
 
+## Documents
+- [API Doc](https://github.com/marihachi/carol-js/blob/0.2.0/doc/api.md)
+
 ## Installation
 ```sh
 npm i carol-js
