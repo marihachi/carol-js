@@ -8,6 +8,7 @@ test('pattern()', () => {
 });
 
 test('.many()', () => {
+  assert.strictEqual(carol(/abc/).many().toRegex().source, '(?:abc)*');
   assert.strictEqual(carol(/abc/).many(0).toRegex().source, '(?:abc)*');
   assert.strictEqual(carol(/abc/).many(1).toRegex().source, '(?:abc)+');
   assert.strictEqual(carol(/abc/).many(2).toRegex().source, '(?:abc){2,}');
@@ -35,7 +36,7 @@ test('.capture()', () => {
 
 test('seq()', () => {
   assert.strictEqual(carol.seq([carol(/abc/), carol(/xyz/)]).toRegex().source, 'abcxyz');
-  assert.strictEqual(carol.seq([carol(/abc/).many(0), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
+  assert.strictEqual(carol.seq([carol(/abc/).many(), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
 });
 
 test('hello world', () => {
@@ -43,9 +44,9 @@ test('hello world', () => {
     carol(/hello/),
     carol(/ /),
     carol(/world/),
-    carol(/!/).many(0),
+    carol(/!/).many(),
   ]).many(1).toRegex();
-  
+
   assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
   assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
 });

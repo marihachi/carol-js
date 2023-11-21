@@ -10,8 +10,8 @@ const regex = carol.seq([
   carol(/hello/),
   carol(/ /),
   carol(/world/),
-  carol(/!/).many0(),
-]).many1().toRegex();
+  carol(/!/).many(),
+]).many(1).toRegex();
 
 assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
 assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);

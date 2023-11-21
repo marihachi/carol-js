@@ -50,7 +50,7 @@ declare namespace carol {
     /**
      * Creates a new pattern that repeats the pattern.
     */
-    many(min: number, greedy?: boolean): Pattern;
+    many(min?: number, greedy?: boolean): Pattern;
 
     /**
      * Creates a new pattern that repeats the pattern.
