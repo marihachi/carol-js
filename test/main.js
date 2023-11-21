@@ -13,6 +13,8 @@ test('.many()', () => {
   assert.strictEqual(carol(/abc/).many(1).toRegex().source, '(?:abc)+');
   assert.strictEqual(carol(/abc/).many(2).toRegex().source, '(?:abc){2,}');
   assert.strictEqual(carol(/abc/).many(3, 5).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many({length: 2}).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many(2, 2).toRegex().source, '(?:abc){2}');
 });
 
 test('.many() greedy', () => {
@@ -20,14 +22,15 @@ test('.many() greedy', () => {
   assert.strictEqual(carol(/abc/).many(1, true).toRegex().source, '(?:abc)+');
   assert.strictEqual(carol(/abc/).many(2, true).toRegex().source, '(?:abc){2,}');
   assert.strictEqual(carol(/abc/).many(3, 5, true).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many({length: 2, greedy: true}).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many(2, 2, true).toRegex().source, '(?:abc){2}');
+
   assert.strictEqual(carol(/abc/).many(0, false).toRegex().source, '(?:abc)*?');
   assert.strictEqual(carol(/abc/).many(1, false).toRegex().source, '(?:abc)+?');
   assert.strictEqual(carol(/abc/).many(2, false).toRegex().source, '(?:abc){2,}?');
   assert.strictEqual(carol(/abc/).many(3, 5, false).toRegex().source, '(?:abc){3,5}?');
-});
-
-test('.manyJust()', () => {
-  assert.strictEqual(carol(/abc/).many({length: 2}).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many({length: 2, greedy: false}).toRegex().source, '(?:abc){2}?');
+  assert.strictEqual(carol(/abc/).many(2, 2, false).toRegex().source, '(?:abc){2}?');
 });
 
 test('.capture()', () => {
