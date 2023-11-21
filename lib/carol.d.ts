@@ -39,7 +39,7 @@ declare namespace carol {
   /**
    * Pattern Model
   */
-  export declare class Pattern {
+  export class Pattern {
     source: string;
 
     /**
@@ -78,5 +78,5 @@ declare namespace carol {
    * Creates a new pattern from a pattern sequence.
    * @param patterns pattern sequence
   */
-  export declare function seq(patterns: Pattern[]): Pattern;
+  export function seq(patterns: Pattern[]): Pattern;
 }

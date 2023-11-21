@@ -1,4 +1,4 @@
-## Regex pattern
+## New carol pattern
 ```js
 carol(/[a-z]/);
 carol('[a-z]');
@@ -19,11 +19,11 @@ carol.seq([
 
 ## Repeat pattern
 ```js
-carol(/[a-z]/).many0();
-carol(/[a-z]/).many1();
-carol(/[a-z]/).many(2);
-carol(/[a-z]/).many(2, 4);
-carol(/[a-z]/).manyJust(2);
+carol(/[a-z]/).many(0); // *
+carol(/[a-z]/).many(1); // +
+carol(/[a-z]/).many(2); // {2,}
+carol(/[a-z]/).many(2, 4); // {2,4}
+carol(/[a-z]/).many({ length: 2 }); // {2,2}
 ```
 
 ## Capture input string
