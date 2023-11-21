@@ -4,13 +4,13 @@ We build a RegExp object by combining functions.
 
 ## Example
 ```js
-import * as C from 'carol-js';
+import carol from 'carol-js';
 
-const regex = C.seq([
-  C.pattern(/hello/),
-  C.pattern(/ /),
-  C.pattern(/world/),
-  C.pattern(/!/).many0(),
+const regex = carol.seq([
+  carol(/hello/),
+  carol(/ /),
+  carol(/world/),
+  carol(/!/).many0(),
 ]).many1().toRegex();
 
 assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');

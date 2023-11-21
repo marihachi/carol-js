@@ -1,36 +1,36 @@
 ## Regex pattern
 ```js
-C.pattern(/[a-z]/);
-C.pattern('[a-z]');
+carol(/[a-z]/);
+carol('[a-z]');
 ```
 
 ## Convert to a Regex
 ```js
-C.pattern(/[a-z]/).toRegex();
+carol(/[a-z]/).toRegex();
 ```
 
 ## Pattern sequence
 ```js
-C.seq([
-  C.pattern(/[a-z]/),
-  C.pattern(/[0-9]/),
+carol.seq([
+  carol(/[a-z]/),
+  carol(/[0-9]/),
 ]);
 ```
 
 ## Repeat pattern
 ```js
-C.pattern(/[a-z]/).many0();
-C.pattern(/[a-z]/).many1();
-C.pattern(/[a-z]/).many(2);
-C.pattern(/[a-z]/).many(2, 4);
-C.pattern(/[a-z]/).manyJust(2);
+carol(/[a-z]/).many0();
+carol(/[a-z]/).many1();
+carol(/[a-z]/).many(2);
+carol(/[a-z]/).many(2, 4);
+carol(/[a-z]/).manyJust(2);
 ```
 
 ## Capture input string
 ```js
-C.seq([
-  C.pattern(/[a-z]+/),
-  C.pattern(/-/),
-  C.pattern(/[0-9]+/).capture(),
+carol.seq([
+  carol(/[a-z]+/),
+  carol(/-/),
+  carol(/[0-9]+/).capture(),
 ]);
 ```
