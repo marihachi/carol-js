@@ -32,12 +32,6 @@ export default carol;
 
 declare namespace carol {
   /**
-   * Creates a new pattern from a pattern sequence.
-   * @param patterns pattern sequence
-  */
-  export declare function seq(patterns: Pattern[]): Pattern;
-
-  /**
    * RegExp flag
   */
   export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
@@ -54,29 +48,19 @@ declare namespace carol {
     constructor(source: string);
 
     /**
-     * Creates a new pattern that repeats the pattern with `*`.
-    */
-    many0(greedy?: boolean): Pattern;
-
-    /**
-     * Creates a new pattern that repeats the pattern with `+`.
-    */
-    many1(greedy?: boolean): Pattern;
-
-    /**
-     * Creates a new pattern that repeats the pattern with `{count}`.
-    */
-    manyJust(count: number): Pattern;
-
-    /**
-     * Creates a new pattern that repeats the pattern with `{min,}`.
+     * Creates a new pattern that repeats the pattern.
     */
     many(min: number, greedy?: boolean): Pattern;
 
     /**
-     * Creates a new pattern that repeats the pattern with `{min,max}`.
+     * Creates a new pattern that repeats the pattern.
     */
     many(min: number, max: number, greedy?: boolean): Pattern;
+
+    /**
+     * Creates a new pattern that repeats the pattern.
+    */
+    many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
 
     /**
      * Capture the pattern.
@@ -89,4 +73,10 @@ declare namespace carol {
     */
     toRegex(flags?: Flag | Flag[]): RegExp;
   }
+
+  /**
+   * Creates a new pattern from a pattern sequence.
+   * @param patterns pattern sequence
+  */
+  export declare function seq(patterns: Pattern[]): Pattern;
 }
