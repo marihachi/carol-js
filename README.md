@@ -4,18 +4,21 @@ We build a RegExp object by combining functions.
 
 ## Example
 ```js
-import * as C from 'carol-js';
+import carol from 'carol-js';
 
-const regex = C.seq([
-  C.pattern(/hello/),
-  C.pattern(/ /),
-  C.pattern(/world/),
-  C.pattern(/!/).many0(),
-]).many1().toRegex();
+const regex = carol.seq([
+  carol(/hello/),
+  carol(/ /),
+  carol(/world/),
+  carol(/!/).many(1),
+]).many().toRegex();
 
-assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
-assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
+assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 ```
+
+## Documents
+- [API list](https://github.com/marihachi/carol-js/blob/1e432a782c70e8ce112e4ea0f7d29410407141d3/doc/api.md)
+- [Usage](https://github.com/marihachi/carol-js/blob/1e432a782c70e8ce112e4ea0f7d29410407141d3/doc/usage.md)
 
 ## Installation
 ```sh

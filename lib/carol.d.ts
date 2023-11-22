@@ -25,65 +25,63 @@ SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 /**
- * RegExp flag
-*/
-export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
-
-/**
- * Pattern Model
-*/
-export declare class Pattern {
-  source: string;
-
-  /**
-   * Constructor
-  */
-  constructor(source: string);
-
-  /**
-   * Creates a new pattern that repeats the pattern with `*`.
-  */
-  many0(greedy?: boolean): Pattern;
-
-  /**
-   * Creates a new pattern that repeats the pattern with `+`.
-  */
-  many1(greedy?: boolean): Pattern;
-
-  /**
-   * Creates a new pattern that repeats the pattern with `{count}`.
-  */
-  manyJust(count: number): Pattern;
-
-  /**
-   * Creates a new pattern that repeats the pattern with `{min,}`.
-  */
-  many(min: number, greedy?: boolean): Pattern;
-
-  /**
-   * Creates a new pattern that repeats the pattern with `{min,max}`.
-  */
-  many(min: number, max: number, greedy?: boolean): Pattern;
-
-  /**
-   * Capture the pattern.
-  */
-  capture(): Pattern;
-
-  /**
-   * Build a RegExp from the pattern.
-   * @param flags regex flags
-  */
-  toRegex(flags?: Flag | Flag[]): RegExp;
-}
-
-/**
  * Creates a new pattern from a RegExp or regex string.
 */
-export declare function pattern(source: string | RegExp): Pattern;
+declare function carol(source: string | RegExp): carol.Pattern;
+export default carol;
 
-/**
- * Creates a new pattern from a pattern sequence.
- * @param patterns pattern sequence
-*/
-export declare function seq(patterns: Pattern[]): Pattern;
+declare namespace carol {
+  /**
+   * RegExp flag
+  */
+  export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+
+  /**
+   * Creates a new pattern from a pattern sequence.
+   * @param patterns pattern sequence
+  */
+  export function seq(patterns: Pattern[]): Pattern;
+
+  /**
+   * Pattern Model
+  */
+  export class Pattern {
+    source: string;
+
+    /**
+     * Constructor
+    */
+    constructor(source: string);
+
+    /**
+     * Creates a new pattern that repeats the pattern.
+    */
+    many(min?: number, greedy?: boolean): Pattern;
+
+    /**
+     * Creates a new pattern that repeats the pattern.
+    */
+    many(min: number, max: number, greedy?: boolean): Pattern;
+
+    /**
+     * Creates a new pattern that repeats the pattern.
+    */
+    many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
+
+    /**
+     * Create a new pattern that is allowed to not match the pattern.
+    */
+    option(greedy?: boolean): Pattern;
+
+    /**
+     * Capture the pattern.
+    */
+    capture(): Pattern;
+
+    /**
+     * Build a RegExp from the pattern.
+     * @param flags regex flags
+    */
+    toRegex(flags?: Flag | Flag[]): RegExp;
+  }
+}

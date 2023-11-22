@@ -1,36 +1,40 @@
-## Regex pattern
-```js
-C.pattern(/[a-z]/);
-C.pattern('[a-z]');
+# API
+
+## function: carol
+```ts
+function carol(source: string | RegExp): Pattern;
 ```
 
-## Convert to a Regex
-```js
-C.pattern(/[a-z]/).toRegex();
+## function: seq
+```ts
+function seq(patterns: Pattern[]): Pattern;
 ```
 
-## Pattern sequence
-```js
-C.seq([
-  C.pattern(/[a-z]/),
-  C.pattern(/[0-9]/),
-]);
+## class: Pattern
+```ts
+class Pattern {
+  constructor(source: string);
+}
 ```
 
-## Repeat pattern
-```js
-C.pattern(/[a-z]/).many0();
-C.pattern(/[a-z]/).many1();
-C.pattern(/[a-z]/).many(2);
-C.pattern(/[a-z]/).many(2, 4);
-C.pattern(/[a-z]/).manyJust(2);
+### method: Pattern.many
+```ts
+function many(min?: number, greedy?: boolean): Pattern;
+function many(min: number, max: number, greedy?: boolean): Pattern;
+function many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
 ```
 
-## Capture input string
-```js
-C.seq([
-  C.pattern(/[a-z]+/),
-  C.pattern(/-/),
-  C.pattern(/[0-9]+/).capture(),
-]);
+### method: Pattern.option
+```ts
+function option(greedy?: boolean): Pattern;
+```
+
+### method: Pattern.capture
+```ts
+function capture(): Pattern;
+```
+
+### method: Pattern.toRegex
+```ts
+function toRegex(flags?: Flag | Flag[]): RegExp;
 ```

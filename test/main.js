@@ -1,64 +1,63 @@
 import assert from 'node:assert';
 import test from 'node:test';
-import * as C from 'carol-js';
+import carol from '../lib/carol.js';
 
-test('pattern()', () => {
-  assert.strictEqual(C.pattern(/abc/).toRegex().source, 'abc');
-  assert.strictEqual(C.pattern('abc').toRegex().source, 'abc');
+test('carol()', () => {
+  assert.strictEqual(carol(/abc/).toRegex().source, 'abc');
+  assert.strictEqual(carol('abc').toRegex().source, 'abc');
 });
 
-test('.many0()', () => {
-  assert.strictEqual(C.pattern(/abc/).many0().toRegex().source, '(?:abc)*');
-});
-
-test('.many0() greedy', () => {
-  assert.strictEqual(C.pattern(/abc/).many0(true).toRegex().source, '(?:abc)*');
-  assert.strictEqual(C.pattern(/abc/).many0(false).toRegex().source, '(?:abc)*?');
-});
-
-test('.many1()', () => {
-  assert.strictEqual(C.pattern(/abc/).many1().toRegex().source, '(?:abc)+');
-});
-
-test('.many1() greedy', () => {
-  assert.strictEqual(C.pattern(/abc/).many1(true).toRegex().source, '(?:abc)+');
-  assert.strictEqual(C.pattern(/abc/).many1(false).toRegex().source, '(?:abc)+?');
+test('carol.seq()', () => {
+  assert.strictEqual(carol.seq([carol(/abc/), carol(/xyz/)]).toRegex().source, 'abcxyz');
+  assert.strictEqual(carol.seq([carol(/abc/).many(), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
 });
 
 test('.many()', () => {
-  assert.strictEqual(C.pattern(/abc/).many(0).toRegex().source, '(?:abc){0,}');
-  assert.strictEqual(C.pattern(/abc/).many(1).toRegex().source, '(?:abc){1,}');
-  assert.strictEqual(C.pattern(/abc/).many(2).toRegex().source, '(?:abc){2,}');
-  assert.strictEqual(C.pattern(/abc/).many(3, 5).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many().toRegex().source, '(?:abc)*');
+  assert.strictEqual(carol(/abc/).many(0).toRegex().source, '(?:abc)*');
+  assert.strictEqual(carol(/abc/).many(1).toRegex().source, '(?:abc)+');
+  assert.strictEqual(carol(/abc/).many(2).toRegex().source, '(?:abc){2,}');
+  assert.strictEqual(carol(/abc/).many(3, 5).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many({length: 2}).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many(2, 2).toRegex().source, '(?:abc){2}');
 });
 
 test('.many() greedy', () => {
-  assert.strictEqual(C.pattern(/abc/).many(2, true).toRegex().source, '(?:abc){2,}');
-  assert.strictEqual(C.pattern(/abc/).many(3, 5, true).toRegex().source, '(?:abc){3,5}');
-  assert.strictEqual(C.pattern(/abc/).many(2, false).toRegex().source, '(?:abc){2,}?');
-  assert.strictEqual(C.pattern(/abc/).many(3, 5, false).toRegex().source, '(?:abc){3,5}?');
+  assert.strictEqual(carol(/abc/).many(0, true).toRegex().source, '(?:abc)*');
+  assert.strictEqual(carol(/abc/).many(1, true).toRegex().source, '(?:abc)+');
+  assert.strictEqual(carol(/abc/).many(2, true).toRegex().source, '(?:abc){2,}');
+  assert.strictEqual(carol(/abc/).many(3, 5, true).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many({length: 2, greedy: true}).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many(2, 2, true).toRegex().source, '(?:abc){2}');
+
+  assert.strictEqual(carol(/abc/).many(0, false).toRegex().source, '(?:abc)*?');
+  assert.strictEqual(carol(/abc/).many(1, false).toRegex().source, '(?:abc)+?');
+  assert.strictEqual(carol(/abc/).many(2, false).toRegex().source, '(?:abc){2,}?');
+  assert.strictEqual(carol(/abc/).many(3, 5, false).toRegex().source, '(?:abc){3,5}?');
+  assert.strictEqual(carol(/abc/).many({length: 2, greedy: false}).toRegex().source, '(?:abc){2}?');
+  assert.strictEqual(carol(/abc/).many(2, 2, false).toRegex().source, '(?:abc){2}?');
 });
 
-test('.manyJust()', () => {
-  assert.strictEqual(C.pattern(/abc/).manyJust(3).toRegex().source, '(?:abc){3}');
+test('.option()', () => {
+  assert.strictEqual(carol(/abc/).option().toRegex().source, '(?:abc)?');
+});
+
+test('.option() greedy', () => {
+  assert.strictEqual(carol(/abc/).option(true).toRegex().source, '(?:abc)?');
+  assert.strictEqual(carol(/abc/).option(false).toRegex().source, '(?:abc)??');
 });
 
 test('.capture()', () => {
-  assert.strictEqual(C.pattern(/abc/).capture().toRegex().source, '(abc)');
-});
-
-test('seq()', () => {
-  assert.strictEqual(C.seq([C.pattern(/abc/), C.pattern(/xyz/)]).toRegex().source, 'abcxyz');
-  assert.strictEqual(C.seq([C.pattern(/abc/).many0(), C.pattern(/xyz/)]).toRegex().source, '(?:abc)*xyz');
+  assert.strictEqual(carol(/abc/).capture().toRegex().source, '(abc)');
 });
 
 test('hello world', () => {
-  const r = C.seq([
-    C.pattern(/hello/),
-    C.pattern(/ /),
-    C.pattern(/world/),
-    C.pattern(/!/).many0(),
-  ]).many1().toRegex();
-  assert.strictEqual(r.source, /(?:hello world(?:!)*)+/.source);
-  assert.strictEqual(r.test('hello world!hello world!!hello world!!!'), true);
+  const regex = carol.seq([
+    carol(/hello/),
+    carol(/ /),
+    carol(/world/),
+    carol(/!/).many(1),
+  ]).many().toRegex();
+
+  assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 });
