@@ -18,7 +18,7 @@ assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
 ```
 
 ## Documents
-- [API Doc](https://github.com/marihachi/carol-js/blob/0.2.0/doc/api.md)
+- [API Doc](https://github.com/marihachi/carol-js/blob/75c6ed18a81c1ea54f6e4fb30b8c2c7c556cf654/doc/api.md)
 
 ## Installation
 ```sh
