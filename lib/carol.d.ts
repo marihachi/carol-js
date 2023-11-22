@@ -63,6 +63,11 @@ declare namespace carol {
     many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
 
     /**
+     * Create a new pattern that is allowed to not match the pattern.
+    */
+    option(): Pattern;
+
+    /**
      * Capture the pattern.
     */
     capture(): Pattern;
