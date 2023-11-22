@@ -27,6 +27,11 @@ carol(/[a-z]/).many({ length: 2 }); // {2}
 carol(/[a-z]/).many(2, 2); // {2}
 ```
 
+## Optional pattern
+```js
+carol(/[a-z]/).option();
+```
+
 ## Capture input string
 ```js
 carol.seq([

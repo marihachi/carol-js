@@ -2,9 +2,14 @@ import assert from 'node:assert';
 import test from 'node:test';
 import carol from '../lib/carol.js';
 
-test('pattern()', () => {
+test('carol()', () => {
   assert.strictEqual(carol(/abc/).toRegex().source, 'abc');
   assert.strictEqual(carol('abc').toRegex().source, 'abc');
+});
+
+test('carol.seq()', () => {
+  assert.strictEqual(carol.seq([carol(/abc/), carol(/xyz/)]).toRegex().source, 'abcxyz');
+  assert.strictEqual(carol.seq([carol(/abc/).many(), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
 });
 
 test('.many()', () => {
@@ -33,13 +38,12 @@ test('.many() greedy', () => {
   assert.strictEqual(carol(/abc/).many(2, 2, false).toRegex().source, '(?:abc){2}?');
 });
 
-test('.capture()', () => {
-  assert.strictEqual(carol(/abc/).capture().toRegex().source, '(abc)');
+test('.option()', () => {
+  assert.strictEqual(carol(/abc/).option().toRegex().source, '(?:abc)?');
 });
 
-test('seq()', () => {
-  assert.strictEqual(carol.seq([carol(/abc/), carol(/xyz/)]).toRegex().source, 'abcxyz');
-  assert.strictEqual(carol.seq([carol(/abc/).many(), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
+test('.capture()', () => {
+  assert.strictEqual(carol(/abc/).capture().toRegex().source, '(abc)');
 });
 
 test('hello world', () => {
@@ -47,9 +51,8 @@ test('hello world', () => {
     carol(/hello/),
     carol(/ /),
     carol(/world/),
-    carol(/!/).many(),
-  ]).many(1).toRegex();
+    carol(/!/).many(1),
+  ]).many().toRegex();
 
-  assert.strictEqual(regex.source, '(?:hello world(?:!)*)+');
-  assert.strictEqual(regex.test('hello world!hello world!!hello world!!!'), true);
+  assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 });
