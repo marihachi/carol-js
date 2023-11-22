@@ -37,6 +37,12 @@ declare namespace carol {
   export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 
   /**
+   * Creates a new pattern from a pattern sequence.
+   * @param patterns pattern sequence
+  */
+  export function seq(patterns: Pattern[]): Pattern;
+
+  /**
    * Pattern Model
   */
   export class Pattern {
@@ -65,7 +71,7 @@ declare namespace carol {
     /**
      * Create a new pattern that is allowed to not match the pattern.
     */
-    option(): Pattern;
+    option(greedy?: boolean): Pattern;
 
     /**
      * Capture the pattern.
@@ -78,10 +84,4 @@ declare namespace carol {
     */
     toRegex(flags?: Flag | Flag[]): RegExp;
   }
-
-  /**
-   * Creates a new pattern from a pattern sequence.
-   * @param patterns pattern sequence
-  */
-  export function seq(patterns: Pattern[]): Pattern;
 }
