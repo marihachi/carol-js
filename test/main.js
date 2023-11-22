@@ -42,6 +42,11 @@ test('.option()', () => {
   assert.strictEqual(carol(/abc/).option().toRegex().source, '(?:abc)?');
 });
 
+test('.option() greedy', () => {
+  assert.strictEqual(carol(/abc/).option(true).toRegex().source, '(?:abc)?');
+  assert.strictEqual(carol(/abc/).option(false).toRegex().source, '(?:abc)??');
+});
+
 test('.capture()', () => {
   assert.strictEqual(carol(/abc/).capture().toRegex().source, '(abc)');
 });
