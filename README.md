@@ -17,7 +17,7 @@ assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 ```
 
 ## Documents
-- [API Doc](https://github.com/marihachi/carol-js/blob/75c6ed18a81c1ea54f6e4fb30b8c2c7c556cf654/doc/api.md)
+- [API Doc](https://github.com/marihachi/carol-js/blob/040ef2ccf33f401e6e912c5e10655d1bd9585351/doc/api.md)
 
 ## Installation
 ```sh
