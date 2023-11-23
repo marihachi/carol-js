@@ -1,39 +1,39 @@
 # API
 
-## function: carol
-```ts
+## Function: carol
+```
 carol(source: string | RegExp): Pattern
 ```
 
-## function: seq
+## Function: seq
 ```
 seq(patterns: Pattern[]): Pattern
 ```
 
-## class: Pattern
+## Class: Pattern
 ### Constructor
 ```
 constructor(source: string)
 ```
 
-### method: Pattern.many
+### Method: many
 ```
 Pattern.many(min?: number, greedy?: boolean): Pattern
 Pattern.many(min: number, max: number, greedy?: boolean): Pattern
 Pattern.many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern
 ```
 
-### method: Pattern.option
+### Method: option
 ```
 Pattern.option(greedy?: boolean): Pattern
 ```
 
-### method: Pattern.capture
+### Method: capture
 ```
 Pattern.capture(): Pattern
 ```
 
-### method: Pattern.toRegex
+### Method: toRegex
 ```
 Pattern.toRegex(flags?: Flag | Flag[]): RegExp
 ```
