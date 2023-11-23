@@ -4,11 +4,13 @@
 ```
 carol(source: string | RegExp): Pattern
 ```
+Creates a new pattern from a RegExp or regex string.
 
 ## Function: seq
 ```
 seq(patterns: Pattern[]): Pattern
 ```
+Creates a new pattern from a pattern sequence.
 
 ## Class: Pattern
 ### Constructor
@@ -22,18 +24,22 @@ Pattern.many(min?: number, greedy?: boolean): Pattern
 Pattern.many(min: number, max: number, greedy?: boolean): Pattern
 Pattern.many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern
 ```
+Creates a new pattern that repeats the pattern.
 
 ### Method: option
 ```
 Pattern.option(greedy?: boolean): Pattern
 ```
+Create a new pattern that is allowed to not match the pattern.
 
 ### Method: capture
 ```
 Pattern.capture(): Pattern
 ```
+Capture the pattern.
 
 ### Method: toRegex
 ```
 Pattern.toRegex(flags?: Flag | Flag[]): RegExp
 ```
+Build a RegExp from the pattern.
