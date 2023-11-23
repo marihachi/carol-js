@@ -13,7 +13,7 @@ carol(/[a-z]/).toRegex();
 
 ## Pattern sequence
 ```js
-carol.seq([
+seq([
   carol(/[a-z]/),
   carol(/[0-9]/),
 ]);
@@ -36,7 +36,7 @@ carol(/[a-z]/).option();
 
 ## Capture input string
 ```js
-carol.seq([
+seq([
   carol(/[a-z]+/),
   carol(/-/),
   carol(/[0-9]+/).capture(),
