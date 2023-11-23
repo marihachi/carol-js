@@ -1,24 +1,22 @@
-# API
-
-## Function: carol
+# Function: carol
 ```
 carol(source: string | RegExp): Pattern
 ```
 Creates a new pattern from a RegExp or regex string.
 
-## Function: seq
+# Function: seq
 ```
 seq(patterns: Pattern[]): Pattern
 ```
 Creates a new pattern from a pattern sequence.
 
-## Class: Pattern
-### Constructor
+# Class: Pattern
+## Constructor
 ```
 constructor(source: string)
 ```
 
-### Method: many
+## Method: many
 ```
 Pattern.many(min?: number, greedy?: boolean): Pattern
 Pattern.many(min: number, max: number, greedy?: boolean): Pattern
@@ -26,19 +24,19 @@ Pattern.many(opts: { min?: number, max?: number, greedy?: boolean, length?: numb
 ```
 Creates a new pattern that repeats the pattern.
 
-### Method: option
+## Method: option
 ```
 Pattern.option(greedy?: boolean): Pattern
 ```
 Create a new pattern that is allowed to not match the pattern.
 
-### Method: capture
+## Method: capture
 ```
 Pattern.capture(): Pattern
 ```
 Capture the pattern.
 
-### Method: toRegex
+## Method: toRegex
 ```
 Pattern.toRegex(flags?: Flag | Flag[]): RegExp
 ```
