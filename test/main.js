@@ -23,19 +23,19 @@ test('.many()', () => {
 });
 
 test('.many() greedy', () => {
-  assert.strictEqual(carol(/abc/).many(0, true).toRegex().source, '(?:abc)*');
-  assert.strictEqual(carol(/abc/).many(1, true).toRegex().source, '(?:abc)+');
-  assert.strictEqual(carol(/abc/).many(2, true).toRegex().source, '(?:abc){2,}');
-  assert.strictEqual(carol(/abc/).many(3, 5, true).toRegex().source, '(?:abc){3,5}');
+  assert.strictEqual(carol(/abc/).many({min: 0, greedy: true}).toRegex().source, '(?:abc)*');
+  assert.strictEqual(carol(/abc/).many({min: 1, greedy: true}).toRegex().source, '(?:abc)+');
+  assert.strictEqual(carol(/abc/).many({min: 2, greedy: true}).toRegex().source, '(?:abc){2,}');
+  assert.strictEqual(carol(/abc/).many({min: 3, max: 5, greedy: true}).toRegex().source, '(?:abc){3,5}');
   assert.strictEqual(carol(/abc/).many({length: 2, greedy: true}).toRegex().source, '(?:abc){2}');
-  assert.strictEqual(carol(/abc/).many(2, 2, true).toRegex().source, '(?:abc){2}');
+  assert.strictEqual(carol(/abc/).many({min: 2, max: 2, greedy: true}).toRegex().source, '(?:abc){2}');
 
-  assert.strictEqual(carol(/abc/).many(0, false).toRegex().source, '(?:abc)*?');
-  assert.strictEqual(carol(/abc/).many(1, false).toRegex().source, '(?:abc)+?');
-  assert.strictEqual(carol(/abc/).many(2, false).toRegex().source, '(?:abc){2,}?');
-  assert.strictEqual(carol(/abc/).many(3, 5, false).toRegex().source, '(?:abc){3,5}?');
+  assert.strictEqual(carol(/abc/).many({min: 0, greedy: false}).toRegex().source, '(?:abc)*?');
+  assert.strictEqual(carol(/abc/).many({min: 1, greedy: false}).toRegex().source, '(?:abc)+?');
+  assert.strictEqual(carol(/abc/).many({min: 2, greedy: false}).toRegex().source, '(?:abc){2,}?');
+  assert.strictEqual(carol(/abc/).many({min: 3, max: 5, greedy: false}).toRegex().source, '(?:abc){3,5}?');
   assert.strictEqual(carol(/abc/).many({length: 2, greedy: false}).toRegex().source, '(?:abc){2}?');
-  assert.strictEqual(carol(/abc/).many(2, 2, false).toRegex().source, '(?:abc){2}?');
+  assert.strictEqual(carol(/abc/).many({min: 2, max: 2, greedy: false}).toRegex().source, '(?:abc){2}?');
 });
 
 test('.option()', () => {
@@ -43,8 +43,8 @@ test('.option()', () => {
 });
 
 test('.option() greedy', () => {
-  assert.strictEqual(carol(/abc/).option(true).toRegex().source, '(?:abc)?');
-  assert.strictEqual(carol(/abc/).option(false).toRegex().source, '(?:abc)??');
+  assert.strictEqual(carol(/abc/).option({greedy: true}).toRegex().source, '(?:abc)?');
+  assert.strictEqual(carol(/abc/).option({greedy: false}).toRegex().source, '(?:abc)??');
 });
 
 test('.capture()', () => {

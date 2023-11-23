@@ -56,22 +56,17 @@ declare namespace carol {
     /**
      * Creates a new pattern that repeats the pattern.
     */
-    many(min?: number, greedy?: boolean): Pattern;
+    many(min?: number, max?: number): Pattern;
 
     /**
      * Creates a new pattern that repeats the pattern.
     */
-    many(min: number, max: number, greedy?: boolean): Pattern;
-
-    /**
-     * Creates a new pattern that repeats the pattern.
-    */
-    many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
+    many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern;
 
     /**
      * Create a new pattern that is allowed to not match the pattern.
     */
-    option(greedy?: boolean): Pattern;
+    option(opts?: { greedy?: boolean }): Pattern;
 
     /**
      * Capture the pattern.
