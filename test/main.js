@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import test from 'node:test';
-import carol from '../lib/carol.js';
+import carol from '../dist/carol.js';
 
 test('carol()', () => {
   assert.strictEqual(carol(/abc/).toRegex().source, 'abc');
