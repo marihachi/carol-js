@@ -1,6 +1,7 @@
 # carol-js
 A small tool for building regular expressions.  
 We build a RegExp object by combining functions.  
+We only support ES modules.  
 
 ## Example
 ```js
@@ -30,6 +31,7 @@ npm i carol-js
 git clone https://github.com/marihachi/carol-js.git
 cd carol-js
 npm i
+npm run build
 npm test
 ```
 
