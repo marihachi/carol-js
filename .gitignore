@@ -5,4 +5,5 @@
 /.vscode
 
 # user
+/dist
 /temp
