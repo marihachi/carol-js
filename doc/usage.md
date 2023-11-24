@@ -25,7 +25,7 @@ carol.seq([
 ## Repeat pattern
 ```js
 import carol from 'carol-js';
-carol(/[a-z]/).many(0); // *
+carol(/[a-z]/).many(); // *
 carol(/[a-z]/).many(1); // +
 carol(/[a-z]/).many(2); // {2,}
 carol(/[a-z]/).many(2, 4); // {2,4}
