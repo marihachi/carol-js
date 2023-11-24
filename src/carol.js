@@ -10,7 +10,7 @@ See: https://carol-js.mit-license.org/
 
 /** @typedef {'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y'} Flag */
 
-/** @param { string | RegExp } source */
+/** @param { unknown } source */
 export default function carol(source) {
   let patternSource;
   if (typeof source === 'string') {
@@ -25,7 +25,7 @@ export default function carol(source) {
 }
 
 /**
- * @param { Pattern[] } patterns
+ * @param { unknown } patterns
 */
 export function seq(patterns) {
   if (!Array.isArray(patterns)) {
@@ -44,7 +44,7 @@ export function seq(patterns) {
 carol.seq = seq;
 
 export class Pattern {
-  /** @param { string } source */
+  /** @param { unknown } source */
   constructor(source) {
     if (typeof source !== 'string') {
       throw new TypeError('argument "source" is invalid');
@@ -52,15 +52,6 @@ export class Pattern {
     this.source = source;
   }
 
-  /**
-   * @overload
-   * @param { number | undefined } min
-   * @param { number | undefined } max
-  */
-  /**
-   * @overload
-   * @param { { min?: number, max?: number, greedy?: boolean, length?: number } } opts
-  */
   /**
    * @param { unknown[] } args
   */
@@ -132,7 +123,7 @@ export class Pattern {
   }
 
   /**
-   * @param { { greedy?: boolean } | undefined } opts
+   * @param { unknown } opts
   */
   option(opts) {
     if (opts != null && typeof opts !== 'object') {
@@ -151,7 +142,7 @@ export class Pattern {
   }
 
   /**
-   * @param { Flag | Flag[] | undefined } flags
+   * @param { unknown } flags
   */
   toRegex(flags) {
     if (flags == null || typeof flags === 'string') {
