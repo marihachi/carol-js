@@ -1,6 +1,6 @@
 {
   "name": "carol-js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "A small tool for building regular expressions.",
   "keywords": [
@@ -13,23 +13,23 @@
   "repository": "https://github.com/marihachi/carol-js.git",
   "bugs": "https://github.com/marihachi/carol-js/issues",
   "type": "module",
-  "module": "./lib/carol.js",
-  "types": "./lib/carol.d.ts",
+  "main": "./dist/carol.js",
+  "module": "./dist/carol.js",
+  "types": "./dist/carol.d.ts",
   "exports": {
-		".": {
-			"import": "./lib/carol.js",
-			"types": "./lib/carol.d.ts"
-		},
-		"./*": {
-			"import": "./lib/*",
-			"types": "./lib/*"
-		}
-	},
+    ".": {
+      "import": "./dist/carol.js",
+      "types": "./dist/carol.d.ts"
+    }
+  },
   "scripts": {
-    "test": "node --test ./test/*.js"
+    "test": "node --test ./test/*.js",
+    "build": "node ./script/build.js"
   },
   "files": [
-    "./lib/carol.js",
-    "./lib/carol.d.ts"
-  ]
+    "./dist"
+  ],
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
 }

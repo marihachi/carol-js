@@ -1,6 +1,7 @@
 # carol-js
 A small tool for building regular expressions.  
 We build a RegExp object by combining functions.  
+We only support ES modules.  
 
 ## Example
 ```js
@@ -17,8 +18,8 @@ assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 ```
 
 ## Documents
-- [API list](https://github.com/marihachi/carol-js/blob/1e432a782c70e8ce112e4ea0f7d29410407141d3/doc/api.md)
-- [Usage](https://github.com/marihachi/carol-js/blob/1e432a782c70e8ce112e4ea0f7d29410407141d3/doc/usage.md)
+- [API reference](https://github.com/marihachi/carol-js/blob/4d3fe1c96bc0a05327be6a98a2204f4150098973/doc/api.md)
+- [Usage](https://github.com/marihachi/carol-js/blob/4d3fe1c96bc0a05327be6a98a2204f4150098973/doc/usage.md)
 
 ## Installation
 ```sh
@@ -30,6 +31,7 @@ npm i carol-js
 git clone https://github.com/marihachi/carol-js.git
 cd carol-js
 npm i
+npm run build
 npm test
 ```
 

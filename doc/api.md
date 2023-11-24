@@ -1,40 +1,42 @@
-# API
+# Function: carol
+```
+carol(source: string | RegExp): Pattern
+```
+Creates a new pattern from a RegExp or regex string.
 
-## function: carol
-```ts
-function carol(source: string | RegExp): Pattern;
+# Function: seq
+```
+seq(patterns: Pattern[]): Pattern
+```
+Creates a new pattern from a pattern sequence.
+
+# Class: Pattern
+## Constructor
+```
+constructor(source: string)
 ```
 
-## function: seq
-```ts
-function seq(patterns: Pattern[]): Pattern;
+## Method: many
 ```
+Pattern.many(min?: number, max?: number): Pattern
+Pattern.many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern
+```
+Creates a new pattern that repeats the pattern.
 
-## class: Pattern
-```ts
-class Pattern {
-  constructor(source: string);
-}
+## Method: option
 ```
+Pattern.option(opts?: { greedy?: boolean }): Pattern
+```
+Create a new pattern that is allowed to not match the pattern.
 
-### method: Pattern.many
-```ts
-function many(min?: number, greedy?: boolean): Pattern;
-function many(min: number, max: number, greedy?: boolean): Pattern;
-function many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern;
+## Method: capture
 ```
+Pattern.capture(): Pattern
+```
+Capture the pattern.
 
-### method: Pattern.option
-```ts
-function option(greedy?: boolean): Pattern;
+## Method: toRegex
 ```
-
-### method: Pattern.capture
-```ts
-function capture(): Pattern;
+Pattern.toRegex(flags?: Flag | Flag[]): RegExp
 ```
-
-### method: Pattern.toRegex
-```ts
-function toRegex(flags?: Flag | Flag[]): RegExp;
-```
+Build a RegExp from the pattern.
