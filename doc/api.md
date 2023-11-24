@@ -18,15 +18,14 @@ constructor(source: string)
 
 ## Method: many
 ```
-Pattern.many(min?: number, greedy?: boolean): Pattern
-Pattern.many(min: number, max: number, greedy?: boolean): Pattern
-Pattern.many(opts: { min?: number, max?: number, greedy?: boolean, length?: number }): Pattern
+Pattern.many(min?: number, max?: number): Pattern
+Pattern.many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern
 ```
 Creates a new pattern that repeats the pattern.
 
 ## Method: option
 ```
-Pattern.option(greedy?: boolean): Pattern
+Pattern.option(opts?: { greedy?: boolean }): Pattern
 ```
 Create a new pattern that is allowed to not match the pattern.
 
