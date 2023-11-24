@@ -13,12 +13,14 @@ See: https://carol-js.mit-license.org/
 /** @param { string | RegExp } source */
 export default function carol(source) {
   let patternSource;
-  if (typeof source === 'string')
+  if (typeof source === 'string') {
     patternSource = source;
-  else if (source instanceof RegExp)
+  } else if (source instanceof RegExp) {
     patternSource = source.source;
-  else
+  } else {
     throw new TypeError('argument "source" is invalid');
+  }
+
   return new Pattern(patternSource);
 }
 
@@ -26,13 +28,17 @@ export default function carol(source) {
  * @param { Pattern[] } patterns
 */
 export function seq(patterns) {
-  if (!Array.isArray(patterns))
+  if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
+  }
+
   const source = patterns.map(x => {
-    if (!(x instanceof Pattern))
+    if (!(x instanceof Pattern)) {
       throw new TypeError('argument "patterns" is invalid');
+    }
     return x.source;
   }).join('');
+
   return new Pattern(source);
 }
 carol.seq = seq;
@@ -40,8 +46,9 @@ carol.seq = seq;
 export class Pattern {
   /** @param { string } source */
   constructor(source) {
-    if (typeof source !== 'string')
+    if (typeof source !== 'string') {
       throw new TypeError('argument "source" is invalid');
+    }
     this.source = source;
   }
 
@@ -59,8 +66,9 @@ export class Pattern {
   */
   many(...args) {
     let min, max, length, greedy;
+
     if (args.length > 0) {
-      if (typeof args[0] === 'object') {
+      if (args[0] != null && typeof args[0] === 'object') {
         /** @type { Record<string, unknown> } */
         const opts = args[0];
         length = opts.length;
@@ -73,43 +81,49 @@ export class Pattern {
       } else {
         throw new TypeError('1st argument expected a value of number or object type.');
       }
-      if (min != null && typeof min !== 'number')
+      if (min != null && typeof min !== 'number') {
         throw new TypeError('argument "min" is invalid.');
-      if (max != null && typeof max !== 'number')
+      }
+      if (max != null && typeof max !== 'number') {
         throw new TypeError('argument "max" is invalid.');
-      if (length != null && typeof length !== 'number')
+      }
+      if (length != null && typeof length !== 'number') {
         throw new TypeError('argument "length" is invalid.');
-      if (greedy != null && typeof greedy !== 'boolean')
+      }
+      if (greedy != null && typeof greedy !== 'boolean') {
         throw new TypeError('argument "greedy" is invalid.');
+      }
     }
+
     let quantifier;
     if (length != null) {
-      // length
       quantifier = '{' + length + '}';
     } else {
       if (min != null && max != null) {
-        // min max
-        if (min === max)
+        if (min === max) {
           quantifier = '{' + min + '}';
-        else
+        } else {
           quantifier = '{' + min + ',' + max + '}';
+        }
       } else if (min != null && max == null) {
-        // min
-        if (min === 0)
+        if (min === 0) {
           quantifier = '*';
-        else if (min === 1)
+        } else if (min === 1) {
           quantifier = '+';
-        else
+        } else {
           quantifier = '{' + min + ',}';
+        }
       } else if (min == null && max == null) {
-        // default
         quantifier = '*';
       } else {
         throw new TypeError('invalid arguments.');
       }
     }
-    if (greedy === false)
+
+    if (greedy === false) {
       quantifier += '?';
+    }
+
     return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
@@ -121,13 +135,18 @@ export class Pattern {
    * @param { { greedy?: boolean } | undefined } opts
   */
   option(opts) {
-    if (opts != null && typeof opts !== 'object')
+    if (opts != null && typeof opts !== 'object') {
       throw new TypeError('argument "opts" is invalid');
-    if (opts?.greedy != null && typeof opts?.greedy !== 'boolean')
+    }
+    if (opts?.greedy != null && typeof opts?.greedy !== 'boolean') {
       throw new TypeError('argument "greedy" is invalid');
+    }
+
     let quantifier = '?';
-    if (opts?.greedy === false)
+    if (opts?.greedy === false) {
       quantifier += '?';
+    }
+
     return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
@@ -135,10 +154,14 @@ export class Pattern {
    * @param { Flag | Flag[] | undefined } flags
   */
   toRegex(flags) {
-    if (flags == null || typeof flags === 'string')
+    if (flags == null || typeof flags === 'string') {
       return new RegExp(this.source, flags);
-    if (Array.isArray(flags))
+    }
+
+    if (Array.isArray(flags)) {
       return new RegExp(this.source, flags.join(''));
+    }
+
     throw new TypeError('argument "flags" is invalid');
   }
 }
