@@ -8,43 +8,28 @@ See: https://carol-js.mit-license.org/
 
 ---------------------------------------------------------------------------*/
 
-declare module 'carol-js' {
-  /**
-   * Creates a new pattern from a RegExp or regex string.
-  */
-  function carol(source: string | RegExp): carol.Pattern;
+/**
+ * Creates a new pattern from a RegExp or regex string.
+*/
+declare function carol(source: string | RegExp): carol.Pattern;
+export default carol;
 
-  namespace carol {
-    export {
-      carol,
-      Flag,
-      seq,
-      alt,
-      Pattern,
-    };
-  }
-
+declare namespace carol {
   /**
    * RegExp flag
   */
-  type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+  export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 
   /**
    * Creates a new pattern from a pattern sequence.
    * @param patterns pattern sequence
   */
-  function seq(patterns: Pattern[]): Pattern;
-
-  /**
-   * Creates a new pattern that tests for a match to one of the patterns.
-   * @param patterns patterns
-  */
-  function alt(patterns: Pattern[]): Pattern;
+  export function seq(patterns: Pattern[]): Pattern;
 
   /**
    * Pattern Model
   */
-  class Pattern {
+  export class Pattern {
     source: string;
 
     /**
@@ -78,12 +63,4 @@ declare module 'carol-js' {
     */
     toRegex(flags?: Flag | Flag[]): RegExp;
   }
-
-  export {
-    carol as default,
-    Flag,
-    seq,
-    alt,
-    Pattern,
-  };
 }

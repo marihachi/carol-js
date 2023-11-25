@@ -8,10 +8,10 @@ See: https://carol-js.mit-license.org/
 
 ---------------------------------------------------------------------------*/
 
-const symbolCharRegex = /^[\!-\/:-@\[-\`\{-\~]$/;
+/** @typedef {'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y'} Flag */
 
 /** @param { unknown } source */
-function carol(source) {
+export default function carol(source) {
   let patternSource;
   if (typeof source === 'string') {
     patternSource = source;
@@ -27,7 +27,7 @@ function carol(source) {
 /**
  * @param { unknown } patterns
 */
-function seq(patterns) {
+export function seq(patterns) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
@@ -41,26 +41,9 @@ function seq(patterns) {
 
   return new Pattern(source);
 }
+carol.seq = seq;
 
-/**
- * @param { unknown } patterns
-*/
-function alt(patterns) {
-  if (!Array.isArray(patterns)) {
-    throw new TypeError('argument "patterns" is invalid');
-  }
-
-  const source = patterns.map(x => {
-    if (!(x instanceof Pattern)) {
-      throw new TypeError('argument "patterns" is invalid');
-    }
-    return x.source;
-  }).join('|');
-
-  return new Pattern('(?:' + source + ')');
-}
-
-class Pattern {
+export class Pattern {
   /** @param { unknown } source */
   constructor(source) {
     if (typeof source !== 'string') {
@@ -132,11 +115,11 @@ class Pattern {
       quantifier += '?';
     }
 
-    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
-      return new Pattern(this.source + quantifier);
-    } else {
-      return new Pattern('(?:' + this.source + ')' + quantifier);
-    }
+    return new Pattern('(?:' + this.source + ')' + quantifier);
+  }
+
+  capture() {
+    return new Pattern('(' + this.source + ')');
   }
 
   /**
@@ -155,15 +138,7 @@ class Pattern {
       quantifier += '?';
     }
 
-    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
-      return new Pattern(this.source + quantifier);
-    } else {
-      return new Pattern('(?:' + this.source + ')' + quantifier);
-    }
-  }
-
-  capture() {
-    return new Pattern('(' + this.source + ')');
+    return new Pattern('(?:' + this.source + ')' + quantifier);
   }
 
   /**
@@ -181,15 +156,4 @@ class Pattern {
     throw new TypeError('argument "flags" is invalid');
   }
 }
-
-export default carol;
-carol.carol = carol;
-carol.seq = seq;
-carol.alt = alt;
 carol.Pattern = Pattern;
-
-export {
-  seq,
-  alt,
-  Pattern,
-};
