@@ -8,7 +8,7 @@ See: https://carol-js.mit-license.org/
 
 ---------------------------------------------------------------------------*/
 
-const symbolCharRegex = /^[\!-\/:-@\[-\`\{-\~]$/;
+const spre = /^[\!-\/:-@\[-\`\{-\~]$/;
 
 /** @param { unknown } source */
 function carol(source) {
@@ -132,7 +132,7 @@ class Pattern {
       quantifier += '?';
     }
 
-    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
+    if (this.source.length == 1 && !spre.test(this.source)) {
       return new Pattern(this.source + quantifier);
     } else {
       return new Pattern('(?:' + this.source + ')' + quantifier);
@@ -155,7 +155,7 @@ class Pattern {
       quantifier += '?';
     }
 
-    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
+    if (this.source.length == 1 && !spre.test(this.source)) {
       return new Pattern(this.source + quantifier);
     } else {
       return new Pattern('(?:' + this.source + ')' + quantifier);
@@ -189,6 +189,7 @@ carol.alt = alt;
 carol.Pattern = Pattern;
 
 export {
+  carol,
   seq,
   alt,
   Pattern,

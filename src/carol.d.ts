@@ -80,7 +80,7 @@ declare module 'carol-js' {
   }
 
   export {
-    carol as default,
+    carol,
     Flag,
     seq,
     alt,
