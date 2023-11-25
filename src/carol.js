@@ -183,6 +183,7 @@ class Pattern {
 }
 
 export default carol;
+carol.carol = carol;
 carol.seq = seq;
 carol.alt = alt;
 carol.Pattern = Pattern;

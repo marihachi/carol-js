@@ -8,89 +8,43 @@ See: https://carol-js.mit-license.org/
 
 ---------------------------------------------------------------------------*/
 
-/**
- * Creates a new pattern from a RegExp or regex string.
-*/
-declare function carol(source: string | RegExp): carol.Pattern;
-export default carol;
-
-/**
- * RegExp flag
-*/
-export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
-
-/**
- * Creates a new pattern from a pattern sequence.
- * @param patterns pattern sequence
-*/
-export function seq(patterns: Pattern[]): Pattern;
-
-/**
- * Creates a new pattern that tests for a match to one of the patterns.
- * @param patterns patterns
-*/
-export function alt(patterns: Pattern[]): Pattern;
-
-/**
- * Pattern Model
-*/
-export class Pattern {
-  source: string;
-
+declare module 'carol-js' {
   /**
-   * Constructor
+   * Creates a new pattern from a RegExp or regex string.
   */
-  constructor(source: string);
+  function carol(source: string | RegExp): carol.Pattern;
 
-  /**
-   * Creates a new pattern that repeats the pattern.
-  */
-  many(min?: number, max?: number): Pattern;
+  namespace carol {
+    export {
+      carol,
+      Flag,
+      seq,
+      alt,
+      Pattern,
+    };
+  }
 
-  /**
-   * Creates a new pattern that repeats the pattern.
-  */
-  many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern;
-
-  /**
-   * Create a new pattern that is allowed to not match the pattern.
-  */
-  option(opts?: { greedy?: boolean }): Pattern;
-
-  /**
-   * Capture the pattern.
-  */
-  capture(): Pattern;
-
-  /**
-   * Build a RegExp from the pattern.
-   * @param flags regex flags
-  */
-  toRegex(flags?: Flag | Flag[]): RegExp;
-}
-
-declare namespace carol {
   /**
    * RegExp flag
   */
-  export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+  type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 
   /**
    * Creates a new pattern from a pattern sequence.
    * @param patterns pattern sequence
   */
-  export function seq(patterns: Pattern[]): Pattern;
+  function seq(patterns: Pattern[]): Pattern;
 
   /**
    * Creates a new pattern that tests for a match to one of the patterns.
    * @param patterns patterns
   */
-  export function alt(patterns: Pattern[]): Pattern;
+  function alt(patterns: Pattern[]): Pattern;
 
   /**
    * Pattern Model
   */
-  export class Pattern {
+  class Pattern {
     source: string;
 
     /**
@@ -124,4 +78,12 @@ declare namespace carol {
     */
     toRegex(flags?: Flag | Flag[]): RegExp;
   }
+
+  export {
+    carol as default,
+    Flag,
+    seq,
+    alt,
+    Pattern,
+  };
 }
