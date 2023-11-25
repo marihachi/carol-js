@@ -22,15 +22,6 @@ carol.seq([
 ]);
 ```
 
-## Match any of the patterns
-```js
-import carol from 'carol-js';
-carol.alt([
-  carol(/true/),
-  carol(/false/),
-]);
-```
-
 ## Repeat pattern
 ```js
 import carol from 'carol-js';
