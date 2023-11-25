@@ -24,6 +24,8 @@ export default function carol(source) {
   return new Pattern(patternSource);
 }
 
+const symbolCharRegex = /^[\!-\/:-@\[-\`\{-\~]$/;
+
 /**
  * @param { unknown } patterns
 */
@@ -115,7 +117,11 @@ export class Pattern {
       quantifier += '?';
     }
 
-    return new Pattern('(?:' + this.source + ')' + quantifier);
+    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
+      return new Pattern(this.source + quantifier);
+    } else {
+      return new Pattern('(?:' + this.source + ')' + quantifier);
+    }
   }
 
   capture() {
@@ -138,7 +144,11 @@ export class Pattern {
       quantifier += '?';
     }
 
-    return new Pattern('(?:' + this.source + ')' + quantifier);
+    if (this.source.length == 1 && !symbolCharRegex.test(this.source)) {
+      return new Pattern(this.source + quantifier);
+    } else {
+      return new Pattern('(?:' + this.source + ')' + quantifier);
+    }
   }
 
   /**
