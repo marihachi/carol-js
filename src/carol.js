@@ -8,10 +8,10 @@ See: https://carol-js.mit-license.org/
 
 ---------------------------------------------------------------------------*/
 
-/** @typedef {'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y'} Flag */
+const symbolCharRegex = /^[\!-\/:-@\[-\`\{-\~]$/;
 
 /** @param { unknown } source */
-export default function carol(source) {
+function carol(source) {
   let patternSource;
   if (typeof source === 'string') {
     patternSource = source;
@@ -24,12 +24,10 @@ export default function carol(source) {
   return new Pattern(patternSource);
 }
 
-const symbolCharRegex = /^[\!-\/:-@\[-\`\{-\~]$/;
-
 /**
  * @param { unknown } patterns
 */
-export function seq(patterns) {
+function seq(patterns) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
@@ -43,9 +41,8 @@ export function seq(patterns) {
 
   return new Pattern(source);
 }
-carol.seq = seq;
 
-export class Pattern {
+class Pattern {
   /** @param { unknown } source */
   constructor(source) {
     if (typeof source !== 'string') {
@@ -166,4 +163,12 @@ export class Pattern {
     throw new TypeError('argument "flags" is invalid');
   }
 }
+
+export default carol;
+carol.seq = seq;
 carol.Pattern = Pattern;
+
+export {
+  seq,
+  Pattern,
+};
