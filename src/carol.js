@@ -124,10 +124,6 @@ export class Pattern {
     }
   }
 
-  capture() {
-    return new Pattern('(' + this.source + ')');
-  }
-
   /**
    * @param { unknown } opts
   */
@@ -149,6 +145,10 @@ export class Pattern {
     } else {
       return new Pattern('(?:' + this.source + ')' + quantifier);
     }
+  }
+
+  capture() {
+    return new Pattern('(' + this.source + ')');
   }
 
   /**
