@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "helloworld",
+  "version": "1.0.0",
+  "description": "helloworld",
+  "type": "module",
+  "module": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "carol-js": "file:../.."
+  }
+}
