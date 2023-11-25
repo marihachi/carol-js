@@ -12,6 +12,10 @@ test('carol.seq()', () => {
   assert.strictEqual(carol.seq([carol(/abc/).many(), carol(/xyz/)]).toRegex().source, '(?:abc)*xyz');
 });
 
+test('alt()', () => {
+  assert.strictEqual(carol.alt([carol(/abc/), carol(/xyz/)]).toRegex().source, '(?:abc|xyz)');
+});
+
 test('.many()', () => {
   assert.strictEqual(carol(/abc/).many().toRegex().source, '(?:abc)*');
   assert.strictEqual(carol(/abc/).many(0).toRegex().source, '(?:abc)*');

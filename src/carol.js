@@ -42,6 +42,24 @@ function seq(patterns) {
   return new Pattern(source);
 }
 
+/**
+ * @param { unknown } patterns
+*/
+function alt(patterns) {
+  if (!Array.isArray(patterns)) {
+    throw new TypeError('argument "patterns" is invalid');
+  }
+
+  const source = patterns.map(x => {
+    if (!(x instanceof Pattern)) {
+      throw new TypeError('argument "patterns" is invalid');
+    }
+    return x.source;
+  }).join('|');
+
+  return new Pattern('(?:' + source + ')');
+}
+
 class Pattern {
   /** @param { unknown } source */
   constructor(source) {
@@ -166,9 +184,11 @@ class Pattern {
 
 export default carol;
 carol.seq = seq;
+carol.alt = alt;
 carol.Pattern = Pattern;
 
 export {
   seq,
+  alt,
   Pattern,
 };

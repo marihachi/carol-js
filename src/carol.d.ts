@@ -26,6 +26,12 @@ export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 export function seq(patterns: Pattern[]): Pattern;
 
 /**
+ * Creates a new pattern that tests for a match to one of the patterns.
+ * @param patterns patterns
+*/
+export function alt(patterns: Pattern[]): Pattern;
+
+/**
  * Pattern Model
 */
 export class Pattern {
@@ -74,6 +80,12 @@ declare namespace carol {
    * @param patterns pattern sequence
   */
   export function seq(patterns: Pattern[]): Pattern;
+
+  /**
+   * Creates a new pattern that tests for a match to one of the patterns.
+   * @param patterns patterns
+  */
+  export function alt(patterns: Pattern[]): Pattern;
 
   /**
    * Pattern Model
