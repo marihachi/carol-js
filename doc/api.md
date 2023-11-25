@@ -10,6 +10,12 @@ seq(patterns: Pattern[]): Pattern
 ```
 Creates a new pattern from a pattern sequence.
 
+# Function: alt
+```
+alt(patterns: Pattern[]): Pattern;
+```
+Creates a new pattern that tests for a match to one of the patterns.
+
 # Class: Pattern
 ## Constructor
 ```
