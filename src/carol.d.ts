@@ -4,7 +4,7 @@ MIT License
 
 Copyright (c) 2023 marihachi <marihachi0620@gmail.com>
 
-See: https://carol-js.mit-license.org/
+See: https://github.com/marihachi/carol-js/blob/4f314365ba991c1fad963a249fc82e8051a261cb/LICENSE
 
 ---------------------------------------------------------------------------*/
 
