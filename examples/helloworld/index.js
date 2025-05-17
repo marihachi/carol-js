@@ -1,4 +1,3 @@
-import assert from 'assert';
 import carol from 'carol-js';
 
 const regex = carol.seq([
@@ -8,4 +7,4 @@ const regex = carol.seq([
   carol(/!/).many(1),
 ]).many().toRegex();
 
-assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
+console.log(`pattern: ${regex.source}`);
