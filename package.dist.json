@@ -19,5 +19,11 @@
   ],
   "type": "module",
   "module": "./carol.js",
-  "types": "./carol.d.ts"
+  "types": "./carol.d.ts",
+  "exports": {
+    ".": {
+      "types": "./carol.d.ts",
+      "import": "./carol.js"
+    }
+  }
 }
