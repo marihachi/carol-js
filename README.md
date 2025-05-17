@@ -1,10 +1,9 @@
 # carol-js
-A small tool for building regular expressions.
+A powerful, small tool for building regular expressions.
 
-- We build a RegExp object by combining functions.
-- It allows you to maintain the readability of complex regular expressions.
-- The size of the distributed .js file is less than 3KB!
-- We only support ES modules.
+- It maintains its readability even with complex regular expressions.
+- It build a RegExp object by combining functions.
+- It provides a package of ES modules.
 
 ## Example
 ```js
