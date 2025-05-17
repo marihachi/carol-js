@@ -1,35 +1,19 @@
 {
-  "name": "carol-js",
-  "version": "1.0.0",
-  "license": "MIT",
-  "description": "A small tool for building regular expressions.",
-  "keywords": [
-    "regex",
-    "regular-expression",
-    "utility",
-    "builder"
-  ],
-  "author": "marihachi <marihachi0620@gmail.com>",
-  "repository": "https://github.com/marihachi/carol-js.git",
-  "bugs": "https://github.com/marihachi/carol-js/issues",
-  "type": "module",
-  "main": "./dist/carol.js",
-  "module": "./dist/carol.js",
-  "types": "./dist/carol.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/carol.js",
-      "types": "./dist/carol.d.ts"
-    }
-  },
+  "name": "root",
+  "private": true,
   "scripts": {
-    "test": "node --test ./test/*.js",
-    "build": "node ./script/build.js"
+    "test": "tsx --test ./test/*.ts",
+    "check": "tsc --project tsconfig.check.json",
+    "build": "npm run build:clean-before && npm run build:compile && npm run build:minify && npm run build:copy-resource",
+    "build:clean-before": "rm -rf dist",
+    "build:compile": "tsc --project tsconfig.build.json",
+    "build:minify": "terser dist/carol.js --output dist/carol.js --module --compress ecma=2024 --mangle",
+    "build:copy-resource": "cp package.dist.json dist/package.json"
   },
-  "files": [
-    "./dist"
-  ],
   "devDependencies": {
-    "uglify-js": "^3.17.4"
+    "@types/node": "^22.15.18",
+    "terser": "^5.39.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }
