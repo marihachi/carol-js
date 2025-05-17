@@ -2,17 +2,16 @@
 
 MIT License
 
-Copyright (c) 2023 marihachi <marihachi0620@gmail.com>
+Copyright (c) 2025 marihachi <marihachi0620@gmail.com>
 
 See: https://github.com/marihachi/carol-js/blob/4f314365ba991c1fad963a249fc82e8051a261cb/LICENSE
 
 ---------------------------------------------------------------------------*/
 
-const spre = /^[\!-\/:-@\[-\`\{-\~]$/;
+var spre = /^[\!-\/:-@\[-\`\{-\~]$/;
 
-/** @param { unknown } source */
-function carol(source) {
-  let patternSource;
+function carol(source: unknown) {
+  var patternSource;
   if (typeof source === 'string') {
     patternSource = source;
   } else if (source instanceof RegExp) {
@@ -24,15 +23,12 @@ function carol(source) {
   return new Pattern(patternSource);
 }
 
-/**
- * @param { unknown } patterns
-*/
-function seq(patterns) {
+function seq(patterns: unknown) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
 
-  const source = patterns.map(x => {
+  var source = patterns.map(x => {
     if (!(x instanceof Pattern)) {
       throw new TypeError('argument "patterns" is invalid');
     }
@@ -42,15 +38,12 @@ function seq(patterns) {
   return new Pattern(source);
 }
 
-/**
- * @param { unknown } patterns
-*/
-function alt(patterns) {
+function alt(patterns: unknown) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
 
-  const source = patterns.map(x => {
+  var source = patterns.map(x => {
     if (!(x instanceof Pattern)) {
       throw new TypeError('argument "patterns" is invalid');
     }
@@ -61,24 +54,22 @@ function alt(patterns) {
 }
 
 class Pattern {
-  /** @param { unknown } source */
-  constructor(source) {
+  source: string;
+
+  constructor(source: unknown) {
     if (typeof source !== 'string') {
       throw new TypeError('argument "source" is invalid');
     }
     this.source = source;
   }
 
-  /**
-   * @param { unknown[] } args
-  */
-  many(...args) {
-    let min, max, length, greedy;
+  many(...args: unknown[]) {
+    var min, max, length, greedy;
 
     if (args.length > 0) {
       if (args[0] != null && typeof args[0] === 'object') {
         /** @type { Record<string, unknown> } */
-        const opts = args[0];
+        var opts = args[0];
         length = opts.length;
         min = opts.min;
         max = opts.max;
@@ -103,7 +94,7 @@ class Pattern {
       }
     }
 
-    let quantifier;
+    var quantifier;
     if (length != null) {
       quantifier = '{' + length + '}';
     } else {
@@ -139,10 +130,7 @@ class Pattern {
     }
   }
 
-  /**
-   * @param { unknown } opts
-  */
-  option(opts) {
+  option(opts?: unknown) {
     if (opts != null && typeof opts !== 'object') {
       throw new TypeError('argument "opts" is invalid');
     }
@@ -150,7 +138,7 @@ class Pattern {
       throw new TypeError('argument "greedy" is invalid');
     }
 
-    let quantifier = '?';
+    var quantifier = '?';
     if (opts?.greedy === false) {
       quantifier += '?';
     }
@@ -166,16 +154,13 @@ class Pattern {
     return new Pattern('(' + this.source + ')');
   }
 
-  /**
-   * @param { unknown } flags
-  */
-  toRegex(flags) {
-    if (flags == null || typeof flags === 'string') {
-      return new RegExp(this.source, flags);
-    }
-
+  toRegex(flags?: unknown) {
     if (Array.isArray(flags)) {
       return new RegExp(this.source, flags.join(''));
+    }
+
+    if (flags == null || typeof flags === 'string') {
+      return new RegExp(this.source, flags!);
     }
 
     throw new TypeError('argument "flags" is invalid');

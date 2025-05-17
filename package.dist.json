@@ -1,0 +1,23 @@
+{
+  "name": "carol-js",
+  "version": "1.0.0",
+  "description": "A small tool for building regular expressions.",
+  "author": "marihachi <marihachi0620@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marihachi/carol-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marihachi/carol-js/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "regex",
+    "regular-expression",
+    "utility",
+    "builder"
+  ],
+  "type": "module",
+  "module": "./carol.js",
+  "types": "./carol.d.ts"
+}

@@ -1,7 +1,5 @@
-/// <reference path="../dist/carol.d.ts" />
-
 import assert from 'node:assert';
-import _default, { carol, Pattern, alt, seq } from 'carol-js';
+import _default, { carol, Pattern, alt, seq } from '../dist/carol.js';
 
 assert.ok(typeof carol === 'function');
 assert.ok(Pattern != null);
