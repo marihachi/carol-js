@@ -1,6 +1,6 @@
 {
   "name": "carol-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A powerful, small tool for building regular expressions.",
   "author": "marihachi <marihachi0620@gmail.com>",
   "repository": {
@@ -25,5 +25,6 @@
       "types": "./carol.d.ts",
       "import": "./carol.js"
     }
-  }
+  },
+  "scripts": {}
 }
