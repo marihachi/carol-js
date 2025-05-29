@@ -16,7 +16,7 @@ export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
  * Creates a new pattern from a RegExp or regex string.
 */
 function carol(source: string | RegExp): Pattern
-function carol(source: unknown) {
+function carol(source: any) {
   var patternSource;
   if (typeof source === 'string') {
     patternSource = source;
@@ -34,7 +34,7 @@ function carol(source: unknown) {
  * @param patterns pattern sequence
 */
 function seq(patterns: Pattern[]): Pattern
-function seq(patterns: unknown) {
+function seq(patterns: any) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
@@ -54,7 +54,7 @@ function seq(patterns: unknown) {
  * @param patterns patterns
 */
 function alt(patterns: Pattern[]): Pattern
-function alt(patterns: unknown) {
+function alt(patterns: any) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
   }
@@ -79,7 +79,7 @@ class Pattern {
    * Constructor
   */
   constructor(source: string)
-  constructor(source: unknown) {
+  constructor(source: any) {
     if (typeof source !== 'string') {
       throw new TypeError('argument "source" is invalid');
     }
@@ -94,7 +94,7 @@ class Pattern {
    * Creates a new pattern that repeats the pattern.
   */
   many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern
-  many(...args: unknown[]): Pattern {
+  many(...args: any[]): Pattern {
     var min, max, length, greedy;
 
     if (args.length > 0) {
@@ -165,7 +165,7 @@ class Pattern {
    * Create a new pattern that is allowed to not match the pattern.
   */
   option(opts?: { greedy?: boolean }): Pattern
-  option(opts?: unknown): Pattern {
+  option(opts?: any): Pattern {
     if (opts != null && typeof opts !== 'object') {
       throw new TypeError('argument "opts" is invalid');
     }
@@ -194,19 +194,26 @@ class Pattern {
 
   /**
    * Build a RegExp from the pattern.
-   * @param flags regex flags
+   * @param opts.flags Flags passed to RegExp class. You can specify a flag string or an array containing flag string.
+   * @param opts.exact A boolean value indicating whether it is an exact match.
   */
-  toRegex(flags?: Flag | Flag[]): RegExp
-  toRegex(flags?: unknown): RegExp {
-    if (Array.isArray(flags)) {
-      return new RegExp(this.source, flags.join(''));
+  toRegex(opts?: { flags?: Flag | Flag[], exact?: boolean }): RegExp
+  toRegex(opts?: any): RegExp {
+    opts = opts ?? {};
+    if (typeof opts !== 'object') {
+      throw new TypeError('argument "opts" is invalid');
     }
-
-    if (flags == null || typeof flags === 'string') {
-      return new RegExp(this.source, flags!);
+    opts.flags = opts.flags ?? [];
+    if (!Array.isArray(opts.flags) && typeof opts.flags !== 'string') {
+      throw new TypeError('argument "opts.flags" is invalid');
     }
-
-    throw new TypeError('argument "flags" is invalid');
+    opts.exact = opts.exact ?? false;
+    var source = opts.exact ? `^${this.source}$` : this.source;
+    if (typeof opts.flags === 'string') {
+      return new RegExp(source, opts.flags);
+    } else {
+      return new RegExp(source, opts.flags.join(''));
+    }
   }
 }
 
