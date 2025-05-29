@@ -4,12 +4,18 @@ MIT License
 
 Copyright (c) 2025 marihachi <marihachi0620@gmail.com>
 
-See: https://github.com/marihachi/carol-js/blob/4f314365ba991c1fad963a249fc82e8051a261cb/LICENSE
+See: https://github.com/marihachi/carol-js/blob/10d902da7e64e6647f5816d39e34ca881262386d/LICENSE
 
 ---------------------------------------------------------------------------*/
 
 var spre = /^[\!-\/:-@\[-\`\{-\~]$/;
 
+export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
+
+/**
+ * Creates a new pattern from a RegExp or regex string.
+*/
+function carol(source: string | RegExp): Pattern
 function carol(source: unknown) {
   var patternSource;
   if (typeof source === 'string') {
@@ -23,6 +29,11 @@ function carol(source: unknown) {
   return new Pattern(patternSource);
 }
 
+/**
+ * Creates a new pattern from a pattern sequence.
+ * @param patterns pattern sequence
+*/
+function seq(patterns: Pattern[]): Pattern
 function seq(patterns: unknown) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
@@ -38,6 +49,11 @@ function seq(patterns: unknown) {
   return new Pattern(source);
 }
 
+/**
+ * Creates a new pattern that tests for a match to one of the patterns.
+ * @param patterns patterns
+*/
+function alt(patterns: Pattern[]): Pattern
 function alt(patterns: unknown) {
   if (!Array.isArray(patterns)) {
     throw new TypeError('argument "patterns" is invalid');
@@ -53,9 +69,16 @@ function alt(patterns: unknown) {
   return new Pattern('(?:' + source + ')');
 }
 
+/**
+ * Pattern Model
+*/
 class Pattern {
   source: string;
 
+  /**
+   * Constructor
+  */
+  constructor(source: string)
   constructor(source: unknown) {
     if (typeof source !== 'string') {
       throw new TypeError('argument "source" is invalid');
@@ -63,7 +86,15 @@ class Pattern {
     this.source = source;
   }
 
-  many(...args: unknown[]) {
+  /**
+   * Creates a new pattern that repeats the pattern.
+  */
+  many(min?: number, max?: number): Pattern
+  /**
+   * Creates a new pattern that repeats the pattern.
+  */
+  many(opts: { min?: number, max?: number, length?: number, greedy?: boolean }): Pattern
+  many(...args: unknown[]): Pattern {
     var min, max, length, greedy;
 
     if (args.length > 0) {
@@ -130,7 +161,11 @@ class Pattern {
     }
   }
 
-  option(opts?: unknown) {
+  /**
+   * Create a new pattern that is allowed to not match the pattern.
+  */
+  option(opts?: { greedy?: boolean }): Pattern
+  option(opts?: unknown): Pattern {
     if (opts != null && typeof opts !== 'object') {
       throw new TypeError('argument "opts" is invalid');
     }
@@ -150,11 +185,19 @@ class Pattern {
     }
   }
 
-  capture() {
+  /**
+   * Capture the pattern.
+  */
+  capture(): Pattern {
     return new Pattern('(' + this.source + ')');
   }
 
-  toRegex(flags?: unknown) {
+  /**
+   * Build a RegExp from the pattern.
+   * @param flags regex flags
+  */
+  toRegex(flags?: Flag | Flag[]): RegExp
+  toRegex(flags?: unknown): RegExp {
     if (Array.isArray(flags)) {
       return new RegExp(this.source, flags.join(''));
     }
