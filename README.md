@@ -6,16 +6,29 @@ A powerful, small tool for building regular expressions.
 - It provides a package of ES modules.
 
 ```js
-import carol from 'carol-js';
+import carol from "carol-js";
 
-const regex = carol.seq([
-  carol(/hello/),
-  carol(/ /),
-  carol(/world/),
-  carol(/!/).many(1),
-]).many().toRegex();
+const hex = carol(/[0-9a-f][0-9a-f]/);
 
-assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
+const uuid = carol.seq([
+  hex.many({ length: 4 }),
+  carol(/-/),
+  hex.many({ length: 2 }),
+  carol(/-/),
+  hex.many({ length: 2 }),
+  carol(/-/),
+  hex.many({ length: 2 }),
+  carol(/-/),
+  hex.many({ length: 6 }),
+]);
+
+const regex = uuid.toRegex({ flags: "i", exact: true });
+
+assert.strictEqual(
+  regex.source,
+  "^(?:[0-9a-f][0-9a-f]){4}-(?:[0-9a-f][0-9a-f]){2}-(?:[0-9a-f][0-9a-f]){2}-(?:[0-9a-f][0-9a-f]){2}-(?:[0-9a-f][0-9a-f]){6}$"
+);
+assert.strictEqual(regex.flags, "i");
 ```
 
 ## Get Started
@@ -32,8 +45,8 @@ assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 3. Enjoy carol-js!
 
 ## Documents
-- [API reference](https://github.com/marihachi/carol-js/blob/3e5d29ffe37d7b4b827bbd59e3133627cac06e76/doc/api.md)
-- [Usage](https://github.com/marihachi/carol-js/blob/b1204f993e4a94ab3f473b2cfd75b822780488e4/doc/usage.md)
+- [API reference](https://github.com/marihachi/carol-js/blob/7ab6d7796a254764f4372e74220f7302d63b2669/doc/api.md)
+- [Usage](https://github.com/marihachi/carol-js/blob/7ab6d7796a254764f4372e74220f7302d63b2669/doc/usage.md)
 
 ## Test
 ```sh
