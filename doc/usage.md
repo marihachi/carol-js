@@ -79,3 +79,16 @@ carol.seq([
 ]);
 // [a-z]+-([0-9]+)
 ```
+
+## Exact match
+```js
+import carol from 'carol-js';
+carol(/[a-z]/).toRegex({ exact: true });
+// ^[a-z]$
+```
+
+## Case insensitive match
+```js
+import carol from 'carol-js';
+carol(/[a-z]/).toRegex({ flags: "i" });
+```
