@@ -33,7 +33,7 @@ assert.strictEqual(regex.source, '(?:hello world(?:!)+)*');
 
 ## Documents
 - [API reference](https://github.com/marihachi/carol-js/blob/3e5d29ffe37d7b4b827bbd59e3133627cac06e76/doc/api.md)
-- [Usage](https://github.com/marihachi/carol-js/blob/3e5d29ffe37d7b4b827bbd59e3133627cac06e76/doc/usage.md)
+- [Usage](https://github.com/marihachi/carol-js/blob/b1204f993e4a94ab3f473b2cfd75b822780488e4/doc/usage.md)
 
 ## Test
 ```sh
