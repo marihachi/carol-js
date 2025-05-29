@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "uuid",
+  "version": "1.0.0",
+  "description": "uuid",
+  "type": "module",
+  "module": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "carol-js": "file:../../dist"
+  }
+}
