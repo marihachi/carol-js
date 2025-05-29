@@ -43,6 +43,6 @@ Capture the pattern.
 
 ## Method: toRegex
 ```
-Pattern.toRegex(flags?: Flag | Flag[]): RegExp
+Pattern.toRegex(opts?: { flags?: Flag | Flag[], exact?: boolean }): RegExp
 ```
 Build a RegExp from the pattern.
