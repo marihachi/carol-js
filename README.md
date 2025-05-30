@@ -6,19 +6,19 @@ A powerful, small tool for building regular expressions.
 - It provides a package of ES modules.
 
 ```js
-import carol from "carol-js";
+import C from "carol-js";
 
-const hex = carol(/[0-9a-f][0-9a-f]/);
+const hex = C(/[0-9a-f][0-9a-f]/);
 
-const uuid = carol.seq([
+const uuid = C.seq([
   hex.many({ length: 4 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 6 }),
 ]);
 
