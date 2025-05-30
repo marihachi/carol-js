@@ -2,15 +2,15 @@
 
 ## New carol pattern
 ```js
-import carol from 'carol-js';
-const pattern1 = carol(/[a-z]/);
-const pattern2 = carol('[a-z]');
+import C from 'carol-js';
+const pattern1 = C.token(/[a-z]/);
+const pattern2 = C.token('[a-z]');
 ```
 
 ## Convert to a Regex
 ```js
-import carol from 'carol-js';
-const regex = carol(/[a-z]/).toRegex();
+import C from 'carol-js';
+const regex = C.token(/[a-z]/).toRegex();
 ```
 Equals to
 ```js
@@ -19,76 +19,76 @@ const regex = /[a-z]/;
 
 ## Sequence pattern
 ```js
-import carol from 'carol-js';
-carol.seq([
-  carol(/[a-z]/),
-  carol(/[0-9]/),
+import C from 'carol-js';
+C.seq([
+  C.token(/[a-z]/),
+  C.token(/[0-9]/),
 ]);
 // [a-z][0-9]
 ```
 
 ## Match any of the patterns
 ```js
-import carol from 'carol-js';
-carol.alt([
-  carol(/true/),
-  carol(/false/),
+import C from 'carol-js';
+C.alt([
+  C.token(/true/),
+  C.token(/false/),
 ]);
 // (?:true|false)
 ```
 
 ## Repeat pattern
 ```js
-import carol from 'carol-js';
-carol(/[a-z]/).many();
+import C from 'carol-js';
+C.token(/[a-z]/).many();
 // (?:[a-z])*
 
-carol(/[a-z]/).many(1);
+C.token(/[a-z]/).many(1);
 // (?:[a-z])+
 
-carol(/[a-z]/).many(2);
+C.token(/[a-z]/).many(2);
 // (?:[a-z]){2,}
 
-carol(/[a-z]/).many(2, 4);
+C.token(/[a-z]/).many(2, 4);
 // (?:[a-z]){2,4}
 
-carol(/[a-z]/).many({ length: 2 });
+C.token(/[a-z]/).many({ length: 2 });
 // (?:[a-z]){2}
 
-carol(/[a-z]/).many({ min: 2, greedy: false });
+C.token(/[a-z]/).many({ min: 2, greedy: false });
 // (?:[a-z]){2,}?
 
-carol(/[a-z]/).many({ min: 2, max: 4, greedy: false });
+C.token(/[a-z]/).many({ min: 2, max: 4, greedy: false });
 // (?:[a-z]){2,4}?
 ```
 
 ## Optional pattern
 ```js
-import carol from 'carol-js';
-carol(/[a-z]/).option();
+import C from 'carol-js';
+C.token(/[a-z]/).option();
 // (?:[a-z])?
 ```
 
 ## Capture input string
 ```js
-import carol from 'carol-js';
-carol.seq([
-  carol(/[a-z]+/),
-  carol(/-/),
-  carol(/[0-9]+/).capture(),
+import C from 'carol-js';
+C.seq([
+  C.token(/[a-z]+/),
+  C.token(/-/),
+  C.token(/[0-9]+/).capture(),
 ]);
 // [a-z]+-([0-9]+)
 ```
 
 ## Exact match
 ```js
-import carol from 'carol-js';
-carol(/[a-z]/).toRegex({ exact: true });
+import C from 'carol-js';
+C.token(/[a-z]/).toRegex({ exact: true });
 // ^[a-z]$
 ```
 
 ## Case insensitive match
 ```js
-import carol from 'carol-js';
-carol(/[a-z]/).toRegex({ flags: "i" });
+import C from 'carol-js';
+C.token(/[a-z]/).toRegex({ flags: "i" });
 ```

@@ -15,8 +15,8 @@ export type Flag = 'g' | 'i' | 'd' | 'm' | 's' | 'u' | 'y';
 /**
  * Creates a new pattern from a RegExp or regex string.
 */
-function carol(source: string | RegExp): Pattern
-function carol(source: any) {
+function token(source: string | RegExp): Pattern
+function token(source: any) {
   var patternSource;
   if (typeof source === 'string') {
     patternSource = source;
@@ -217,14 +217,16 @@ class Pattern {
   }
 }
 
+var carol = {
+  token,
+  seq,
+  alt,
+  Pattern,
+};
 export default carol;
-carol.carol = carol;
-carol.seq = seq;
-carol.alt = alt;
-carol.Pattern = Pattern;
 
 export {
-  carol,
+  token,
   seq,
   alt,
   Pattern,

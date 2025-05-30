@@ -1,16 +1,16 @@
-import carol from 'carol-js';
+import C from 'carol-js';
 import assert from 'node:assert';
 
-const hex = carol(/[0-9a-f][0-9a-f]/);
-const uuid = carol.seq([
+const hex = C.token(/[0-9a-f][0-9a-f]/);
+const uuid = C.seq([
   hex.many({ length: 4 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 2 }),
-  carol(/-/),
+  C.token(/-/),
   hex.many({ length: 6 }),
 ]);
 const regex = uuid.toRegex({ flags: "i", exact: true });
