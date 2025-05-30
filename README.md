@@ -39,7 +39,7 @@ assert.strictEqual(regex.flags, "i");
 
 2. Import the package to your TypeScript or JavaScript(ES modules) source files.
    ```js
-   import carol from 'carol-js';
+   import C from 'carol-js';
    ```
 
 3. Enjoy carol-js!
