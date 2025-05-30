@@ -1,6 +1,6 @@
-# Function: carol
+# Function: token
 ```
-carol(source: string | RegExp): Pattern
+token(source: string | RegExp): Pattern
 ```
 Creates a new pattern from a RegExp or regex string.
 
