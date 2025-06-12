@@ -8,7 +8,7 @@ A powerful, small tool for building regular expressions.
 ```js
 import C from "carol-js";
 
-const hex = C(/[0-9a-f][0-9a-f]/);
+const hex = C.token(/[0-9a-f][0-9a-f]/);
 
 const uuid = C.seq([
   hex.many({ length: 4 }),
