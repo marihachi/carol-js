@@ -1,7 +1,7 @@
 # carol-js
 A powerful, small tool for building regular expressions.
 
-- It maintains its readability even with complex regular expressions.
+- It keeps its readability even with complex regular expressions.
 - It build a RegExp object by combining functions.
 - It provides a package of ES modules.
 
